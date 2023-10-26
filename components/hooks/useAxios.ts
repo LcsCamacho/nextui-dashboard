@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from "axios";
 
 export const UseAxios = (url?: string, options?: AxiosRequestConfig) => {
   const defaultOptions = {
-    baseURL: url || "http://localhost:3000/api",
+    baseURL: url || "https://primodas.vercel.app/api",
 
     headers: {
       "Content-Type": "application/json",
