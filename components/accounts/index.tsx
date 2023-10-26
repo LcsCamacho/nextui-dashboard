@@ -12,10 +12,13 @@ import { AddUser } from "./add-user";
 export interface User {
   id: number;
   name: string;
-  email: string;
   role: string;
+  team: string;
   status: string;
-  date: string;
+  age: string;
+  avatar: string;
+  email: string;
+  date?: string;
 }
 
 export const Accounts = ({ users }: { users: User[] }) => {
