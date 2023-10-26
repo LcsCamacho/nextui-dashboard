@@ -23,7 +23,7 @@ export const CompaniesDropdown = () => {
          <Dropdown.Trigger css={{cursor: 'pointer'}}>
             <Box>
                <Flex align={'center'} css={{gap: '$7'}}>
-                  {company.logo}
+               <AcmeIcon />
                   <Box>
                      <Text
                         h3
@@ -52,8 +52,6 @@ export const CompaniesDropdown = () => {
             </Box>
          </Dropdown.Trigger>
          <Dropdown.Menu
-            onAction={(e) => {
-            }}
             aria-label="Avatar Actions"
             css={{
                '$$dropdownMenuWidth': '340px',

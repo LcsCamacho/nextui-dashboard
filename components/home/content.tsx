@@ -10,6 +10,7 @@ import {CardBalance2} from './card-balance2';
 import {CardBalance3} from './card-balance3';
 import {CardAgents} from './card-agents';
 import {CardTransactions} from './card-transactions';
+import { users } from '../table/data';
 
 const Chart = dynamic(
    () => import('../charts/steam').then((mod) => mod.Steam),
@@ -185,7 +186,7 @@ export const Content = () => (
                </Link>
             </NextLink>
          </Flex>
-         <TableWrapper />
+         <TableWrapper users={users} />
       </Flex>
    </Box>
 );

@@ -1,10 +1,10 @@
 import {Table} from '@nextui-org/react';
 import React from 'react';
 import {Box} from '../styles/box';
-import {columns, users} from './data';
+import {columns, users as userMock} from './data';
 import {RenderCell} from './render-cell';
 
-export const TableWrapper = () => {
+export const TableWrapper = ({users}:{users:typeof userMock}) => {
    return (
       <Box
          css={{

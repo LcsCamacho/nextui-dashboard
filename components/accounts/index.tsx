@@ -7,8 +7,11 @@ import { UsersIcon } from '../icons/breadcrumb/users-icon';
 import { Flex } from '../styles/flex';
 import { TableWrapper } from '../table/table';
 import { AddUser } from './add-user';
+import {columns, users} from '../table/data';
+import {useState} from 'react';
 
 export const Accounts = () => {
+   const [usersState, setUsersState] = useState(users);
    return (
       <Flex
          css={{
@@ -59,6 +62,19 @@ export const Accounts = () => {
                <Input
                   css={{width: '100%', maxW: '410px'}}
                   placeholder="Buscar clientes"
+                  onChange={(e) => {
+                     const value = e.target.value;
+                     const filteredUsers = users.filter((user) => {
+                        const name = user.name.toLowerCase();
+                        const email = user.email.toLowerCase();
+                        const search = value.toLowerCase();
+                        return (
+                           name.includes(search) ||
+                           email.includes(search)
+                        );
+                     });
+                     setUsersState(filteredUsers);
+                  }}
                />
             </Flex>
             <Flex direction={'row'} css={{gap: '$6'}} wrap={'wrap'}>
@@ -69,7 +85,7 @@ export const Accounts = () => {
             </Flex>
          </Flex>
 
-         <TableWrapper />
+         <TableWrapper users={usersState} />
       </Flex>
    );
 };
