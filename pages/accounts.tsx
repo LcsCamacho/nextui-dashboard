@@ -9,7 +9,7 @@ import { users } from "../components/table/data";
 export const getServerSideProps: GetServerSideProps = async () => {
   const {
     data,
-  } = await axios.get("http://localhost:3000/api/clientes");
+  } = await axios.get("https://primodas.vercel.app/api/clientes");
   return {
     props: {
       clientes: data.length > 0 ? data : users,
