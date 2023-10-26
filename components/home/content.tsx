@@ -6,10 +6,11 @@ import { Flex } from "../styles/flex";
 import { TableWrapper } from "../table/table";
 import NextLink from "next/link";
 import { CardBalance1 } from "./card-balance1";
-import { CardBalance2 } from "./card-balance2";
+import { CardClientesCadastrados } from "./card-clientes-cadastrados";
 import { CardBalance3 } from "./card-balance3";
 import { CardTransactions } from "./card-transactions";
 import { users } from "../table/data";
+import { Cliente } from "@prisma/client";
 
 const Chart = dynamic(
   () => import("../charts/steam").then((mod) => mod.Steam),
@@ -18,7 +19,11 @@ const Chart = dynamic(
   }
 );
 
-export const Content = () => (
+interface Props {
+  clientes: Cliente[];
+}
+
+export const Content = ({ clientes }: Props) => (
   <Box css={{ overflow: "hidden", height: "100%" }}>
     <Flex
       css={{
@@ -69,7 +74,7 @@ export const Content = () => (
             direction={"row"}
           >
             <CardBalance1 />
-            <CardBalance2 />
+            <CardClientesCadastrados qtdClientesCadastrados={clientes.length} />
             <CardBalance3 />
           </Flex>
         </Box>
@@ -184,7 +189,7 @@ export const Content = () => (
           </Link>
         </NextLink>
       </Flex>
-      <TableWrapper users={users} />
+      <TableWrapper clientes={clientes} />
     </Flex>
   </Box>
 );

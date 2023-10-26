@@ -4,7 +4,9 @@ import { Community } from "../icons/community";
 import { Box } from "../styles/box";
 import { Flex } from "../styles/flex";
 
-export const CardBalance2 = () => {
+export const CardClientesCadastrados = ({qtdClientesCadastrados}: {
+  qtdClientesCadastrados: number
+}) => {
   return (
     <Card
       css={{
@@ -22,13 +24,13 @@ export const CardBalance2 = () => {
               Clientes cadastrados
             </Text>
             <Text span size={"$xs"}>
-              +2400 Pessoas
+              +{qtdClientesCadastrados} Pessoas
             </Text>
           </Flex>
         </Flex>
         <Flex css={{ gap: "$6", py: "$4" }} align={"center"}>
           <Text span size={"$xl"} weight={"semibold"}>
-            2048 pessoas
+            {qtdClientesCadastrados} pessoas
           </Text>
           <Text span css={{ color: "$red600" }} size={"$xs"}>
             + 4.5%

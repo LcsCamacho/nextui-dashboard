@@ -1,4 +1,5 @@
 import { Button, Input, Text } from "@nextui-org/react";
+import { Cliente } from "@prisma/client";
 import Link from "next/link";
 import { useState } from "react";
 import { Breadcrumbs, Crumb, CrumbLink } from "../breadcrumb/breadcrumb.styled";
@@ -21,8 +22,8 @@ export interface User {
   date?: string;
 }
 
-export const Accounts = ({ users }: { users: User[] }) => {
-  const [usersState, setUsersState] = useState(users);
+export const Accounts = ({ clientes }: { clientes: Cliente[] }) => {
+  const [clientesState, setClientesState] = useState(clientes);
   return (
     <Flex
       css={{
@@ -75,13 +76,13 @@ export const Accounts = ({ users }: { users: User[] }) => {
             placeholder="Buscar clientes"
             onChange={(e) => {
               const value = e.target.value;
-              const filteredUsers = users.filter((user) => {
-                const name = user.name.toLowerCase();
+              const filteredClientes = clientes.filter((user) => {
+                const name = user.nome.toLowerCase();
                 const email = user.email.toLowerCase();
                 const search = value.toLowerCase();
                 return name.includes(search) || email.includes(search);
               });
-              setUsersState(filteredUsers);
+              setClientesState(filteredClientes);
             }}
           />
         </Flex>
@@ -93,7 +94,7 @@ export const Accounts = ({ users }: { users: User[] }) => {
         </Flex>
       </Flex>
 
-      <TableWrapper users={usersState} />
+      <TableWrapper clientes={clientesState} />
     </Flex>
   );
 };

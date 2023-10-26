@@ -3,9 +3,10 @@ import React from "react";
 import { Box } from "../styles/box";
 import { columns } from "./data";
 import { RenderCell } from "./render-cell";
-import { User } from "../accounts";
+import { ClienteWithActions } from "./render-cell";
+import { Cliente } from "@prisma/client";
 
-export const TableWrapper = ({ users }: { users: User[] }) => {
+export const TableWrapper = ({ clientes }: { clientes: Cliente[] }) => {
   return (
     <Box
       css={{
@@ -36,12 +37,12 @@ export const TableWrapper = ({ users }: { users: User[] }) => {
             </Table.Column>
           )}
         </Table.Header>
-        <Table.Body items={users}>
+        <Table.Body items={clientes}>
           {(item) => (
             <Table.Row>
               {(columnKey) => (
                 <Table.Cell>
-                  {RenderCell({ user: item, columnKey: columnKey })}
+                  <RenderCell cliente={item} columnKey={columnKey} />
                 </Table.Cell>
               )}
             </Table.Row>

@@ -3,20 +3,22 @@ import { Accounts } from "../components/accounts";
 import axios from "axios";
 import { User } from "../components/accounts";
 import { GetServerSideProps } from "next";
+import { Cliente } from "@prisma/client";
+import { users } from "../components/table/data";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const {
-    data: { users },
-  } = await axios.get<{ users: User[] }>("http://localhost:3000/api/users");
+    data,
+  } = await axios.get("http://localhost:3000/api/clientes");
   return {
     props: {
-      users,
+      clientes: data.length > 0 ? data : users,
     },
   };
 };
 
-const accounts = ({ users }: { users: User[] }) => {
-  return <Accounts users={users} />;
+const accounts = ({ clientes }: { clientes: Cliente[] }) => {
+  return <Accounts clientes={clientes} />;
 };
 
 export default accounts;
