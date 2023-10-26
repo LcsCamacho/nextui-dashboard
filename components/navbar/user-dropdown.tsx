@@ -25,7 +25,7 @@ export const UserDropdown = () => {
                   Entrou como
                </Text>
                <Text b color="inherit" css={{d: 'flex'}}>
-                  Nome do usuário
+                  Pri Almeida Modas
                </Text>
             </Dropdown.Item>
             <Dropdown.Item key="logout" withDivider color="error">

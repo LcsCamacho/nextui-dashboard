@@ -26,7 +26,7 @@ export const CardTransactions = () => {
           {users.map((user, index) => {
             if (index > 6) return;
             return (
-              <Flex css={{ gap: "$6" }} align={"center"} justify="between">
+              <Flex key={index} css={{ gap: "$6" }} align={"center"} justify="between">
                 <Avatar
                   size="lg"
                   pointer
