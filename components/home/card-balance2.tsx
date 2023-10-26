@@ -28,7 +28,7 @@ export const CardBalance2 = () => {
             </Flex>
             <Flex css={{gap: '$6', py: '$4'}} align={'center'}>
                <Text span size={'$xl'} weight={'semibold'}>
-                  $12,138
+                  R$12,138
                </Text>
                <Text span css={{color: '$red600'}} size={'$xs'}>
                   + 4.5%
@@ -45,7 +45,7 @@ export const CardBalance2 = () => {
                      {'↓'}
                   </Text>
                   <Text span size={'$xs'}>
-                     11,930 USD
+                     11,930 R$
                   </Text>
                </Box>
                <Box>
@@ -58,7 +58,7 @@ export const CardBalance2 = () => {
                      {'↑'}
                   </Text>
                   <Text span size={'$xs'}>
-                     54,120 USD
+                     54,120 R$
                   </Text>
                </Box>
                <Box>

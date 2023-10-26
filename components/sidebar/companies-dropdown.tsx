@@ -14,8 +14,8 @@ interface Company {
 
 export const CompaniesDropdown = () => {
    const [company, setCompany] = useState<Company>({
-      name: 'Acme Co.',
-      location: 'Palo Alto, CA',
+      name: 'Pri Modas',
+      location: 'Amparo, SP',
       logo: <AcmeIcon />,
    });
    return (
@@ -53,34 +53,6 @@ export const CompaniesDropdown = () => {
          </Dropdown.Trigger>
          <Dropdown.Menu
             onAction={(e) => {
-               if (e === '1') {
-                  setCompany({
-                     name: 'Facebook',
-                     location: 'San Fransico, CA',
-                     logo: <AcmeIcon />,
-                  });
-               }
-               if (e === '2') {
-                  setCompany({
-                     name: 'Instagram',
-                     location: 'Austin, Tx',
-                     logo: <AcmeLogo />,
-                  });
-               }
-               if (e === '3') {
-                  setCompany({
-                     name: 'Twitter',
-                     location: 'Brooklyn, NY',
-                     logo: <AcmeIcon />,
-                  });
-               }
-               if (e === '4') {
-                  setCompany({
-                     name: 'Acme Co.',
-                     location: 'Palo Alto, CA',
-                     logo: <AcmeIcon />,
-                  });
-               }
             }}
             aria-label="Avatar Actions"
             css={{
@@ -101,34 +73,13 @@ export const CompaniesDropdown = () => {
                },
             }}
          >
-            <Dropdown.Section title="Companies">
+            <Dropdown.Section title="Empresas">
                <Dropdown.Item
                   key="1"
                   icon={<AcmeIcon />}
-                  description="San Fransico, CA"
+                  description="Amparo, SP"
                >
-                  Facebook
-               </Dropdown.Item>
-               <Dropdown.Item
-                  key="2"
-                  icon={<AcmeLogo />}
-                  description="Austin, Tx"
-               >
-                  Instagram
-               </Dropdown.Item>
-               <Dropdown.Item
-                  key="3"
-                  icon={<AcmeIcon />}
-                  description="Brooklyn, NY"
-               >
-                  Twitter
-               </Dropdown.Item>
-               <Dropdown.Item
-                  key="4"
-                  icon={<AcmeIcon />}
-                  description="Palo Alto, CA"
-               >
-                  Acme Co.
+                  Pri Modas
                </Dropdown.Item>
             </Dropdown.Section>
          </Dropdown.Menu>

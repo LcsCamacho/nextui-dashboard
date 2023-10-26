@@ -1,17 +1,12 @@
-import {Button, Input, Text} from '@nextui-org/react';
+import { Button, Input, Text } from '@nextui-org/react';
 import Link from 'next/link';
-import React from 'react';
-import {Breadcrumbs, Crumb, CrumbLink} from '../breadcrumb/breadcrumb.styled';
-import {DotsIcon} from '../icons/accounts/dots-icon';
-import {ExportIcon} from '../icons/accounts/export-icon';
-import {InfoIcon} from '../icons/accounts/info-icon';
-import {TrashIcon} from '../icons/accounts/trash-icon';
-import {HouseIcon} from '../icons/breadcrumb/house-icon';
-import {UsersIcon} from '../icons/breadcrumb/users-icon';
-import {SettingsIcon} from '../icons/sidebar/settings-icon';
-import {Flex} from '../styles/flex';
-import {TableWrapper} from '../table/table';
-import {AddUser} from './add-user';
+import { Breadcrumbs, Crumb, CrumbLink } from '../breadcrumb/breadcrumb.styled';
+import { ExportIcon } from '../icons/accounts/export-icon';
+import { HouseIcon } from '../icons/breadcrumb/house-icon';
+import { UsersIcon } from '../icons/breadcrumb/users-icon';
+import { Flex } from '../styles/flex';
+import { TableWrapper } from '../table/table';
+import { AddUser } from './add-user';
 
 export const Accounts = () => {
    return (
@@ -38,15 +33,15 @@ export const Accounts = () => {
 
             <Crumb>
                <UsersIcon />
-               <CrumbLink href="#">Users</CrumbLink>
+               <CrumbLink href="#">Clientes</CrumbLink>
                <Text>/</Text>
             </Crumb>
             <Crumb>
-               <CrumbLink href="#">List</CrumbLink>
+               <CrumbLink href="#">Lista</CrumbLink>
             </Crumb>
          </Breadcrumbs>
 
-         <Text h3>All Accounts</Text>
+         <Text h3>Todas os clientes</Text>
          <Flex
             css={{gap: '$8'}}
             align={'center'}
@@ -63,17 +58,13 @@ export const Accounts = () => {
             >
                <Input
                   css={{width: '100%', maxW: '410px'}}
-                  placeholder="Search users"
+                  placeholder="Buscar clientes"
                />
-               <SettingsIcon />
-               <TrashIcon />
-               <InfoIcon />
-               <DotsIcon />
             </Flex>
             <Flex direction={'row'} css={{gap: '$6'}} wrap={'wrap'}>
                <AddUser />
                <Button auto iconRight={<ExportIcon />}>
-                  Export to CSV
+                  Exportar para Excel
                </Button>
             </Flex>
          </Flex>
