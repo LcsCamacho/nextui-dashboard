@@ -174,7 +174,7 @@ export const Content = ({ clientes }: Props) => (
         >
           Ultimos Usuarios
         </Text>
-        <NextLink href="/accounts">
+        <NextLink href="/clientes">
           <Link
             block
             color="primary"

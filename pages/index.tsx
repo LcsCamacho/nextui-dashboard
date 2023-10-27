@@ -1,6 +1,6 @@
 import { Cliente } from "@prisma/client";
 import axios from "axios";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { Content } from "../components/home/content";
 import { users } from "../components/table/data";
 
@@ -12,7 +12,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     },
   };
 };
-const Home = ({ clientes }: { clientes: Cliente[] }) => {
+const Home:NextPage<{ clientes: Cliente[] }> = ({ clientes }) => {
   return <Content clientes={clientes} />;
 };
 

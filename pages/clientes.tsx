@@ -2,7 +2,7 @@ import React from "react";
 import { Accounts } from "../components/accounts";
 import axios from "axios";
 import { User } from "../components/accounts";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { Cliente } from "@prisma/client";
 import { users } from "../components/table/data";
 
@@ -17,8 +17,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
   };
 };
 
-const accounts = ({ clientes }: { clientes: Cliente[] }) => {
+const clientes:NextPage<{ clientes: Cliente[] }> = ({ clientes }) => {
   return <Accounts clientes={clientes} />;
 };
 
-export default accounts;
+export default clientes;
