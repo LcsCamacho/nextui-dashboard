@@ -11,6 +11,7 @@ import { CardBalance3 } from "./card-balance3";
 import { CardTransactions } from "./card-transactions";
 import { users } from "../accounts/table/data";
 import { Cliente } from "@prisma/client";
+import {useState} from "react";
 
 const Chart = dynamic(
   () => import("../charts/steam").then((mod) => mod.Steam),
