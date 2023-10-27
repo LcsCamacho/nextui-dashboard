@@ -1,4 +1,4 @@
-import { Button, Input, Text } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { Cliente } from "@prisma/client";
 import Link from "next/link";
 import { useState } from "react";
@@ -43,20 +43,20 @@ export const Accounts = ({ clientes }: { clientes: Cliente[] }) => {
           <Link href={"/"}>
             <CrumbLink href="#">Home</CrumbLink>
           </Link>
-          <Text>/</Text>
+          <p>/</p>
         </Crumb>
 
         <Crumb>
           <UsersIcon />
           <CrumbLink href="#">Clientes</CrumbLink>
-          <Text>/</Text>
+          <p>/</p>
         </Crumb>
         <Crumb>
           <CrumbLink href="#">Lista</CrumbLink>
         </Crumb>
       </Breadcrumbs>
 
-      <Text h3>Todas os clientes</Text>
+      <h3>Todas os clientes</h3>
       <Flex
         css={{ gap: "$8" }}
         align={"center"}
@@ -72,7 +72,7 @@ export const Accounts = ({ clientes }: { clientes: Cliente[] }) => {
           align={"center"}
         >
           <Input
-            css={{ width: "100%", maxW: "410px" }}
+            className="w-full max-w-[410px]"
             placeholder="Buscar clientes"
             onChange={(e) => {
               const value = e.target.value;
@@ -88,7 +88,8 @@ export const Accounts = ({ clientes }: { clientes: Cliente[] }) => {
         </Flex>
         <Flex direction={"row"} css={{ gap: "$6" }} wrap={"wrap"}>
           <AddUser />
-          <Button auto iconRight={<ExportIcon />}>
+          <Button>
+            <ExportIcon />
             Exportar para Excel
           </Button>
         </Flex>

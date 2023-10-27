@@ -1,4 +1,12 @@
-import { Button, Divider, Input, Modal, Text } from "@nextui-org/react";
+import {
+  Button,
+  Divider,
+  Input,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "@nextui-org/react";
 import React from "react";
 import { Flex } from "../styles/flex";
 import { UseAxios } from "../hooks/useAxios";
@@ -35,7 +43,7 @@ export const AddUser = () => {
         isValid = false;
       }
     });
-    if(!isValid) return alert("Preencha todos os campos");
+    if (!isValid) return alert("Preencha todos os campos");
     try {
       const response = await api.post("/clientes", data);
       console.log(response);
@@ -53,23 +61,19 @@ export const AddUser = () => {
 
   return (
     <div>
-      <Button auto onClick={handler}>
-        Cadastrar Cliente
-      </Button>
+      <Button onClick={handler}>Cadastrar Cliente</Button>
       <Modal
         closeButton
         aria-labelledby="modal-title"
-        width="600px"
-        open={visible}
+        className="w-[90%] md:w-[50%] lg:w-[40%]"
+        isOpen={visible}
         onClose={closeHandler}
       >
-        <Modal.Header css={{ justifyContent: "start" }}>
-          <Text id="modal-title" h4>
-            Adicionar novo cliente
-          </Text>
-        </Modal.Header>
-        <Divider css={{ my: "$5" }} />
-        <Modal.Body css={{ py: "$10" }}>
+        <ModalHeader className="justify-start">
+          <h4 id="modal-title">Adicionar novo cliente</h4>
+        </ModalHeader>
+        <Divider className="my-5" />
+        <ModalBody className="pt-10">
           <Flex
             direction={"column"}
             css={{
@@ -88,8 +92,6 @@ export const AddUser = () => {
               <Input
                 ref={primeiroNome}
                 label="Primeiro nome"
-                bordered
-                clearable
                 fullWidth
                 size="lg"
                 placeholder="Primeiro nome"
@@ -97,8 +99,6 @@ export const AddUser = () => {
               <Input
                 ref={segundoNome}
                 label="Segundo nome"
-                clearable
-                bordered
                 fullWidth
                 size="lg"
                 placeholder="Segundo nome"
@@ -115,8 +115,6 @@ export const AddUser = () => {
               <Input
                 ref={email}
                 label="Email"
-                clearable
-                bordered
                 fullWidth
                 size="lg"
                 placeholder="Email"
@@ -124,8 +122,6 @@ export const AddUser = () => {
               <Input
                 ref={telefone}
                 label="Telefone"
-                clearable
-                bordered
                 fullWidth
                 size="lg"
                 placeholder="Telefone"
@@ -141,8 +137,6 @@ export const AddUser = () => {
               <Input
                 ref={rua}
                 label="Rua"
-                clearable
-                bordered
                 fullWidth
                 size="lg"
                 placeholder="Rua"
@@ -150,8 +144,6 @@ export const AddUser = () => {
               <Input
                 ref={bairro}
                 label="Bairro"
-                clearable
-                bordered
                 fullWidth
                 size="lg"
                 placeholder="Bairro"
@@ -159,20 +151,17 @@ export const AddUser = () => {
               <Input
                 ref={numero}
                 label="Número"
-                clearable
-                bordered
                 fullWidth
                 size="lg"
                 placeholder="Número"
               />
             </Flex>
           </Flex>
-        </Modal.Body>
-        <Divider css={{ my: "$5" }} />
-        <Modal.Footer>
+        </ModalBody>
+        <Divider className="my-5" />
+        <ModalFooter>
           <Button
             disabled={loading}
-            auto
             onClick={async () => {
               await submitUser();
               closeHandler();
@@ -180,7 +169,7 @@ export const AddUser = () => {
           >
             Cadastrar cliente
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </div>
   );

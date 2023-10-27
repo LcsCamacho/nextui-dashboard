@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, Link } from "@nextui-org/react";
+import { Link } from "@nextui-org/react";
 import { Box } from "../styles/box";
 import dynamic from "next/dynamic";
 import { Flex } from "../styles/flex";
@@ -51,17 +51,9 @@ export const Content = ({ clientes }: Props) => (
       >
         {/* Card Section Top */}
         <Box>
-          <Text
-            h3
-            css={{
-              textAlign: "center",
-              "@sm": {
-                textAlign: "inherit",
-              },
-            }}
-          >
+          <h3 className="text-center text-2xl font-semibold sm:text-left">
             Balanço de Contas
-          </Text>
+          </h3>
           <Flex
             css={{
               gap: "$10",
@@ -81,17 +73,9 @@ export const Content = ({ clientes }: Props) => (
 
         {/* Chart */}
         <Box>
-          <Text
-            h3
-            css={{
-              textAlign: "center",
-              "@lg": {
-                textAlign: "inherit",
-              },
-            }}
-          >
+          <h3 className="text-center text-2xl font-semibold sm:text-left">
             Estatísticas
-          </Text>
+          </h3>
           <Box
             css={{
               width: "100%",
@@ -118,17 +102,9 @@ export const Content = ({ clientes }: Props) => (
           overflow: "hidden",
         }}
       >
-        <Text
-          h3
-          css={{
-            textAlign: "center",
-            "@lg": {
-              textAlign: "inherit",
-            },
-          }}
-        >
+        <h3 className="text-center text-2xl font-semibold sm:text-left">
           Últimos Agentes e Transações
-        </Text>
+        </h3>
         <Flex
           direction={"column"}
           justify={"center"}
@@ -163,27 +139,13 @@ export const Content = ({ clientes }: Props) => (
       }}
     >
       <Flex justify={"between"} wrap={"wrap"}>
-        <Text
-          h3
-          css={{
-            textAlign: "center",
-            "@lg": {
-              textAlign: "inherit",
-            },
-          }}
-        >
+        <h3 className="text-center text-2xl font-semibold sm:text-left">
           Ultimos Usuarios
-        </Text>
+        </h3>
         <NextLink href="/clientes">
           <Link
-            block
             color="primary"
-            css={{
-              textAlign: "center",
-              "@lg": {
-                textAlign: "inherit",
-              },
-            }}
+            className="hover:underline cursor-pointer hover:text-primary-dark transition-all text-sm text-center mt-2 sm:mt-0"
           >
             Ver Todos
           </Link>

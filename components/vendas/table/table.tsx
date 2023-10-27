@@ -4,14 +4,20 @@ import { Box } from "../../styles/box";
 import { columns } from "./data";
 import { RenderCell } from "./render-cell";
 import { VendaWithActionsAndCliente } from "./render-cell";
-import { Venda } from "@prisma/client";
 
-export const TableWrapper = ({ vendas }: { vendas: VendaWithActionsAndCliente[] }) => {
+export const TableWrapperVendas = ({
+  vendas,
+}: {
+  vendas: VendaWithActionsAndCliente[];
+}) => {
   return (
     <Box
       css={{
         "& .nextui-table-container": {
           boxShadow: "none",
+          minWidth: "100%",
+          boxShadow: "none",
+          width: "100%",
         },
       }}
     >

@@ -1,32 +1,42 @@
-import { Button, Divider, Input, Modal, Text } from "@nextui-org/react";
+import {
+  Button,
+  Divider,
+  Input,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Select,
+  SelectItem,
+} from "@nextui-org/react";
 import React from "react";
 import { Flex } from "../styles/flex";
 import { UseAxios } from "../hooks/useAxios";
+import { Cliente } from "@prisma/client";
 
 export const AddVenda = () => {
   const [visible, setVisible] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [clientes, setClientes] = React.useState<Cliente[]>([]);
+  const cliente = React.useRef<HTMLSelectElement>(null);
+  const valor = React.useRef<HTMLInputElement>(null);
   const handler = () => setVisible(true);
   const { api } = UseAxios();
-  const primeiroNome = React.useRef<HTMLInputElement>(null);
-  const segundoNome = React.useRef<HTMLInputElement>(null);
-  const email = React.useRef<HTMLInputElement>(null);
-  const telefone = React.useRef<HTMLInputElement>(null);
-  const rua = React.useRef<HTMLInputElement>(null);
-  const bairro = React.useRef<HTMLInputElement>(null);
-  const numero = React.useRef<HTMLInputElement>(null);
+
+  const getClientes = async () => {
+    const response = await api.get("/clientes");
+    setClientes(response.data);
+  };
+  React.useEffect(() => {
+    getClientes();
+  }, []);
 
   const submitVenda = async () => {
     let isValid = true;
     setLoading(true);
     const data = {
-      primeiroNome: primeiroNome.current?.value,
-      segundoNome: segundoNome.current?.value,
-      email: email.current?.value,
-      telefone: telefone.current?.value,
-      rua: rua.current?.value,
-      bairro: bairro.current?.value,
-      numero: numero.current?.value,
+      clienteId: cliente.current?.value,
     };
     Object.keys(data).forEach((key) => {
       const keyTyped = key as keyof typeof data;
@@ -35,7 +45,7 @@ export const AddVenda = () => {
         isValid = false;
       }
     });
-    if(!isValid) return alert("Preencha todos os campos");
+    if (!isValid) return alert("Preencha todos os campos");
     try {
       const response = await api.post("/clientes", data);
       console.log(response);
@@ -53,23 +63,19 @@ export const AddVenda = () => {
 
   return (
     <div>
-      <Button auto onClick={handler}>
-        Cadastrar Venda
-      </Button>
+      <Button onClick={handler}>Cadastrar Venda</Button>
       <Modal
         closeButton
         aria-labelledby="modal-title"
-        width="600px"
-        open={visible}
+        className="modal modal-primary w-[600px]"
+        isOpen={visible}
         onClose={closeHandler}
       >
-        <Modal.Header css={{ justifyContent: "start" }}>
-          <Text id="modal-title" h4>
-            Adicionar nova venda
-          </Text>
-        </Modal.Header>
-        <Divider css={{ my: "$5" }} />
-        <Modal.Body css={{ py: "$10" }}>
+        <ModalHeader style={{ justifyContent: "start" }}>
+          <h4 id="modal-title">Adicionar nova venda</h4>
+        </ModalHeader>
+        <Divider style={{ marginBlock: 5 }} />
+        <ModalBody style={{ paddingTop: 10 }}>
           <Flex
             direction={"column"}
             css={{
@@ -85,51 +91,18 @@ export const AddVenda = () => {
                 "@lg": { flexWrap: "nowrap" },
               }}
             >
-              <Input
-                ref={primeiroNome}
-                label="Primeiro nome"
-                bordered
-                clearable
+              <Select
+                items={clientes}
+                ref={cliente}
+                label="Cliente"
                 fullWidth
                 size="lg"
-                placeholder="Primeiro nome"
-              />
-              <Input
-                ref={segundoNome}
-                label="Segundo nome"
-                clearable
-                bordered
-                fullWidth
-                size="lg"
-                placeholder="Segundo nome"
-              />
-            </Flex>
-
-            <Flex
-              css={{
-                gap: "$10",
-                flexWrap: "wrap",
-                "@lg": { flexWrap: "nowrap" },
-              }}
-            >
-              <Input
-                ref={email}
-                label="Email"
-                clearable
-                bordered
-                fullWidth
-                size="lg"
-                placeholder="Email"
-              />
-              <Input
-                ref={telefone}
-                label="Telefone"
-                clearable
-                bordered
-                fullWidth
-                size="lg"
-                placeholder="Telefone"
-              />
+                placeholder="Cliente"
+              >
+                {(cliente: Cliente) => (
+                  <SelectItem key={cliente.id}>{cliente.nome}</SelectItem>
+                )}
+              </Select>
             </Flex>
             <Flex
               css={{
@@ -139,40 +112,19 @@ export const AddVenda = () => {
               }}
             >
               <Input
-                ref={rua}
-                label="Rua"
-                clearable
-                bordered
+                ref={valor}
+                label="Valor"
                 fullWidth
                 size="lg"
-                placeholder="Rua"
-              />
-              <Input
-                ref={bairro}
-                label="Bairro"
-                clearable
-                bordered
-                fullWidth
-                size="lg"
-                placeholder="Bairro"
-              />
-              <Input
-                ref={numero}
-                label="Número"
-                clearable
-                bordered
-                fullWidth
-                size="lg"
-                placeholder="Número"
+                placeholder="Valor"
               />
             </Flex>
           </Flex>
-        </Modal.Body>
-        <Divider css={{ my: "$5" }} />
-        <Modal.Footer>
+        </ModalBody>
+        <Divider style={{ marginBlock: 5 }} />
+        <ModalFooter>
           <Button
             disabled={loading}
-            auto
             onClick={async () => {
               await submitVenda();
               closeHandler();
@@ -180,7 +132,7 @@ export const AddVenda = () => {
           >
             Cadastrar venda
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </div>
   );
