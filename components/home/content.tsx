@@ -3,13 +3,13 @@ import { Text, Link } from "@nextui-org/react";
 import { Box } from "../styles/box";
 import dynamic from "next/dynamic";
 import { Flex } from "../styles/flex";
-import { TableWrapper } from "../table/table";
+import { TableWrapper } from "../accounts/table/table";
 import NextLink from "next/link";
 import { CardBalance1 } from "./card-balance1";
 import { CardClientesCadastrados } from "./card-clientes-cadastrados";
 import { CardBalance3 } from "./card-balance3";
 import { CardTransactions } from "./card-transactions";
-import { users } from "../table/data";
+import { users } from "../accounts/table/data";
 import { Cliente } from "@prisma/client";
 
 const Chart = dynamic(
@@ -127,7 +127,7 @@ export const Content = ({ clientes }: Props) => (
             },
           }}
         >
-          Últimos Agentes e Transações
+          Últimos Cadastros e Transações
         </Text>
         <Flex
           direction={"column"}

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../prisma/connect";
-import { users } from "../../../components/table/data";
+import { users } from "../../../components/accounts/table/data";
 import { Cliente, Prisma } from "@prisma/client";
 interface ClienteDTO extends Omit<Cliente, "nome"> {
   primeiroNome: string;
@@ -29,6 +29,7 @@ const services = {
     complemento,
     email,
     telefone,
+    cpf
   }: ClienteDTO) => {
     const data = {
       nome: `${primeiroNome} ${segundoNome}`,
@@ -40,6 +41,7 @@ const services = {
       complemento: complemento,
       email,
       telefone,
+      cpf
     };
     return await prisma.cliente.create({
       data,

@@ -3,12 +3,27 @@ import { Breadcrumbs, Crumb, CrumbLink } from "../breadcrumb/breadcrumb.styled";
 import { HouseIcon } from "../icons/breadcrumb/house-icon";
 import { UsersIcon } from "../icons/breadcrumb/users-icon";
 import { Flex } from "../styles/flex";
-import { Button, Input, Text } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { ExportIcon } from "../icons/accounts/export-icon";
 import { VendaWithActionsAndCliente } from "./table/render-cell";
 import { AddVenda } from "./add-venda";
+import { TableWrapperVendas } from "./table/table";
+import { useState } from "react";
+import { VendasServices } from "./services";
 
-const Vendas = ({ vendas }: { vendas: VendaWithActionsAndCliente }) => {
+const Vendas = ({ vendas }: { vendas: VendaWithActionsAndCliente[] }) => {
+  const [vendasState, setVendas] = useState<VendaWithActionsAndCliente[]>(vendas);
+  const [loading, setLoading] = useState(false);
+
+  const getVendas = async () => {
+    setLoading(true);
+    const data = await VendasServices.getVendasWithClientes();
+    setVendas(data);
+    setLoading(false);
+  };
+
+  
+
   return (
     <Flex
       css={{
@@ -28,23 +43,22 @@ const Vendas = ({ vendas }: { vendas: VendaWithActionsAndCliente }) => {
           <Link href={"/"}>
             <CrumbLink href="#">Home</CrumbLink>
           </Link>
-          <Text>/</Text>
+          <p>/</p>
         </Crumb>
 
         <Crumb>
           <UsersIcon />
           <CrumbLink href="#">Vendas</CrumbLink>
-          <Text>/</Text>
+          <p>/</p>
         </Crumb>
         <Crumb>
           <CrumbLink href="#">Lista</CrumbLink>
         </Crumb>
       </Breadcrumbs>
 
-      <Text h3>Todas as vendas</Text>
+      <p>Todas as vendas</p>
       <Flex
-        css={{ gap: "$8" }}
-        align={"center"}
+        css={{ gap: "$8", flexDirection: "column", mt: "$6", mb: "$6" }}
         justify={"between"}
         wrap={"wrap"}
       >
@@ -57,16 +71,15 @@ const Vendas = ({ vendas }: { vendas: VendaWithActionsAndCliente }) => {
           align={"center"}
         >
           <Input
-            css={{ width: "100%", maxW: "410px" }}
+            style={{ width: "100%", maxWidth: "410px" }}
             placeholder="Buscar vendas"
           />
-        </Flex>
-        <Flex direction={"row"} css={{ gap: "$6" }} wrap={"wrap"}>
-          <AddVenda />
-          <Button auto iconRight={<ExportIcon />}>
-            Exportar para Excel
+          <AddVenda refetch={() => getVendas()} />
+          <Button>
+            <ExportIcon /> Exportar para Excel
           </Button>
         </Flex>
+        <TableWrapperVendas loading={loading} vendas={vendasState} />
       </Flex>
     </Flex>
   );

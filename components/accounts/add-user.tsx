@@ -15,6 +15,7 @@ export const AddUser = () => {
   const rua = React.useRef<HTMLInputElement>(null);
   const bairro = React.useRef<HTMLInputElement>(null);
   const numero = React.useRef<HTMLInputElement>(null);
+  const cpf = React.useRef<HTMLInputElement>(null);
 
   const submitUser = async () => {
     let isValid = true;
@@ -27,6 +28,7 @@ export const AddUser = () => {
       rua: rua.current?.value,
       bairro: bairro.current?.value,
       numero: numero.current?.value,
+      cpf: cpf.current?.value,
     };
     Object.keys(data).forEach((key) => {
       const keyTyped = key as keyof typeof data;
@@ -39,11 +41,11 @@ export const AddUser = () => {
     try {
       const response = await api.post("/clientes", data);
       console.log(response);
+      window.location.reload();
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
-      window.location.reload();
     }
   };
 
@@ -129,6 +131,15 @@ export const AddUser = () => {
                 fullWidth
                 size="lg"
                 placeholder="Telefone"
+              />
+              <Input
+                ref={cpf}
+                label="Cpf"
+                clearable
+                bordered
+                fullWidth
+                size="lg"
+                placeholder="000.000.000-00"
               />
             </Flex>
             <Flex

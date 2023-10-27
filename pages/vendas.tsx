@@ -16,7 +16,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   };
 }; 
 
-const vendas: NextPage<{vendas:VendaWithActionsAndCliente}> = ({vendas}) => {
+const vendas: NextPage<{vendas:VendaWithActionsAndCliente[]}> = ({vendas}) => {
   return (
     <Vendas vendas={vendas}/>
   );

@@ -1,8 +1,8 @@
 import { Col, Row, User, Text, Tooltip } from "@nextui-org/react";
 import React from "react";
-import { DeleteIcon } from "../icons/table/delete-icon";
-import { EditIcon } from "../icons/table/edit-icon";
-import { EyeIcon } from "../icons/table/eye-icon";
+import { DeleteIcon } from "../../icons/table/delete-icon";
+import { EditIcon } from "../../icons/table/edit-icon";
+import { EyeIcon } from "../../icons/table/eye-icon";
 import { users } from "./data";
 import { IconButton, StyledBadge } from "./table.styled";
 import { Cliente } from "@prisma/client";
@@ -17,7 +17,6 @@ interface Props {
 
 export const RenderCell = ({ cliente, columnKey }: Props) => {
   const cellValue = cliente[columnKey as keyof ClienteWithActions];
-  console.log({ cellValue, columnKey });
   const Cells = {
     nome: () => (
       <User
@@ -52,10 +51,10 @@ export const RenderCell = ({ cliente, columnKey }: Props) => {
         </Row>
       </Col>
     ),
-    valorMovimentado: () => (
+    cpf: () => (
       // @ts-ignore
-      <StyledBadge type={String(cliente.valorMovimentado)}>
-        R$ {cellValue},00
+      <StyledBadge type={String(cliente.cpf)}>
+        {cliente.cpf}
       </StyledBadge>
     ),
     actions: () => (

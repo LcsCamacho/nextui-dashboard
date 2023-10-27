@@ -6,6 +6,7 @@ import { EyeIcon } from "../../icons/table/eye-icon";
 import { users } from "./data";
 import { IconButton, StyledBadge } from "./table.styled";
 import { Venda, Cliente } from "@prisma/client";
+import { VendasServices } from "../services";
 
 export interface VendaWithActionsAndCliente extends Venda {
   actions?: string;
@@ -18,32 +19,24 @@ interface Props {
 }
 
 export const RenderCell = ({ venda, columnKey }: Props) => {
-  const cellValue = venda[columnKey as keyof VendaWithActionsAndCliente];
+  if(!venda) return (<></>)
+
   const Cells = {
     nome: () => (
       <User
         squared
         src={users[Math.floor(Math.random() * users.length)].avatar}
-        name={String(cellValue)}
+        name={String(venda.cliente.nome)}
         css={{ p: 0 }}
       >
-        {venda.cliente.nome}
+        {venda.cliente.telefone}
       </User>
-    ),
-    telefone: () => (
-      <Col>
-      <Row>
-         <Text b size={14} css={{tt: 'capitalize'}}>
-            {String(cellValue)}
-         </Text>
-      </Row>
-   </Col>
     ),
     rua: () => (
       <Col>
         <Row>
           <Text b size={14} css={{ tt: "capitalize" }}>
-            {String(cellValue)}
+            {venda.cliente.rua}
           </Text>
         </Row>
         <Row>
@@ -53,11 +46,26 @@ export const RenderCell = ({ venda, columnKey }: Props) => {
         </Row>
       </Col>
     ),
-    valorMovimentado: () => (
+    valorTotal: () => (
       // @ts-ignore
-      <StyledBadge type={String(cliente.valorMovimentado)}>
-        R$ {cellValue},00
+      <StyledBadge color={"$accents7"} type={"active"}>
+        R$ {venda.valorTotal},00
       </StyledBadge>
+    ),
+    createdAt: () => (
+      // @ts-ignore
+      <Col>
+      <Row>
+          <Text b size={14} css={{ tt: "capitalize" }}>
+            {new Date(venda.createdAt).toLocaleDateString()}
+          </Text>
+        </Row>
+      <Row>
+          <Text b size={13} css={{ tt: "capitalize", color: "$accents7" }}>
+            {new Date(venda.createdAt).toLocaleTimeString()}
+          </Text>
+        </Row>
+        </Col>
     ),
     actions: () => (
       <Row
@@ -83,7 +91,10 @@ export const RenderCell = ({ venda, columnKey }: Props) => {
           <Tooltip
             content="Delete Venda"
             color="error"
-            onClick={() => console.log("Delete Venda", venda.id)}
+            onClick={() => {
+              console.log("Delete Venda", venda.id);
+              VendasServices.deleteVenda(venda.id)
+            }}
           >
             <IconButton>
               <DeleteIcon size={20} fill="#FF0080" />

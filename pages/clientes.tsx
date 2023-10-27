@@ -4,7 +4,7 @@ import axios from "axios";
 import { User } from "../components/accounts";
 import { GetServerSideProps, NextPage } from "next";
 import { Cliente } from "@prisma/client";
-import { users } from "../components/table/data";
+import { users } from "../components/accounts/table/data";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const {

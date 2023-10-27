@@ -1,35 +1,64 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../prisma/connect";
-import { Venda,Cliente, Prisma } from "@prisma/client";
+import { Venda, Cliente, Prisma } from "@prisma/client";
 
-const methodsAllowed = ["GET", "POST"];
+const methodsAllowed = ["GET", "POST", "DELETE"];
 
 enum MethodsAlloweds {
   GET = "GET",
   POST = "POST",
-}
-
-interface VendaDTO extends Venda {
-  cliente?: Cliente;
+  DELETE = "DELETE",
 }
 
 const services = {
-  GET: async (req:NextApiRequest) => {
-    console.log(req.query)
-    if(req.query.withClientes){
+  GET: async (req: NextApiRequest) => {
+    console.log(req.query);
+    if (req.query.withClientes) {
       return await prisma.venda.findMany({
-        include:{
-          cliente:true
-        }
+        orderBy: {
+          updatedAt: "desc",
+        },
+        take: Number(req.query.limit) || undefined,
+        include: {
+          cliente: true,
+        },
       });
     }
-    return await prisma.cliente.findMany();
+    return await prisma.venda.findMany();
   },
-  POST: async (req:NextApiRequest) => {
-    return await prisma.cliente.create({
-      data:req.body,
+  POST: async (req: NextApiRequest) => {
+    const { clienteId, valor } = req.body;
+    await prisma.$transaction([
+      prisma.venda.create({
+        data: {
+          pago: false,
+          clienteId: req.body.clienteId,
+          valorPago: 0,
+          valorTotal: Number(req.body.valor),
+        },
+      }),
+      prisma.cliente.update({
+        where: {
+          id: clienteId,
+        },
+        data: {
+          valorMovimentado: {
+            increment: Number(valor),
+          }
+        }
+      }),
+    ]);
+    return {success: true};
+  },
+  DELETE: async (req: NextApiRequest) => {
+    const { id } = req.query;
+    await prisma.venda.delete({
+      where: {
+        id: String(id),
+      },
     });
-  },
+    return { success: true };
+  }
 };
 
 export default async function handler(
@@ -46,6 +75,7 @@ export default async function handler(
     const response = await services[method](req);
     return res.status(200).json(response);
   } catch (error: Prisma.PrismaClientKnownRequestError | any) {
+    console.log(error)
     return res.status(500).json({ message: error.message });
   }
 }

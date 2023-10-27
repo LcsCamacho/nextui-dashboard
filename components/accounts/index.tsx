@@ -7,7 +7,7 @@ import { ExportIcon } from "../icons/accounts/export-icon";
 import { HouseIcon } from "../icons/breadcrumb/house-icon";
 import { UsersIcon } from "../icons/breadcrumb/users-icon";
 import { Flex } from "../styles/flex";
-import { TableWrapper } from "../table/table";
+import { TableWrapper } from "./table/table";
 import { AddUser } from "./add-user";
 
 export interface User {

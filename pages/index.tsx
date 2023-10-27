@@ -2,7 +2,7 @@ import { Cliente } from "@prisma/client";
 import axios from "axios";
 import { GetServerSideProps, NextPage } from "next";
 import { Content } from "../components/home/content";
-import { users } from "../components/table/data";
+import { users } from "../components/accounts/table/data";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const { data } = await axios.get("https://primodas.vercel.app/api/clientes");

@@ -4,19 +4,27 @@ import { Box } from "../../styles/box";
 import { columns } from "./data";
 import { RenderCell } from "./render-cell";
 import { VendaWithActionsAndCliente } from "./render-cell";
-import { Venda } from "@prisma/client";
 
-export const TableWrapper = ({ vendas }: { vendas: VendaWithActionsAndCliente[] }) => {
+export const TableWrapperVendas = ({
+  vendas,
+  loading,
+}: {
+  vendas: VendaWithActionsAndCliente[];
+  loading?: boolean;
+}) => {
+
   return (
     <Box
       css={{
         "& .nextui-table-container": {
           boxShadow: "none",
+          minWidth: "100%",
+          width: "100%",
         },
       }}
     >
       <Table
-        aria-label="Example table with custom cells"
+        aria-label="Table of vendas"
         css={{
           height: "auto",
           minWidth: "100%",
@@ -42,7 +50,8 @@ export const TableWrapper = ({ vendas }: { vendas: VendaWithActionsAndCliente[] 
             <Table.Row>
               {(columnKey) => (
                 <Table.Cell>
-                  <RenderCell venda={item} columnKey={columnKey} />
+                  {!loading && <RenderCell venda={item} columnKey={columnKey} />}
+                  {loading && <p>Carregando...</p>}
                 </Table.Cell>
               )}
             </Table.Row>
