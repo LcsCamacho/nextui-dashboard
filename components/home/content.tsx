@@ -23,64 +23,158 @@ interface Props {
   clientes: Cliente[];
 }
 
-export const Content = ({ clientes }: Props) => (
-  <Box css={{ overflow: "hidden", height: "100%" }}>
-    <Flex
-      css={{
-        gap: "$8",
-        pt: "$5",
-        height: "fit-content",
-        flexWrap: "wrap",
-        "@lg": {
-          flexWrap: "nowrap",
-        },
-        "@sm": {
-          pt: "$10",
-        },
-      }}
-      justify={"center"}
-    >
+export const Content = ({ clientes }: Props) => {
+  const [clienteSelected, setClienteSelected] = useState<Cliente | null>(null);
+  const [showModalDetails, setShowModalDetails] = useState(false);
+  const [clientesState, setClientesState] = useState(clientes);
+
+  const showDetails = (cliente: Cliente) => {
+    setClienteSelected(cliente);
+    setShowModalDetails(true);
+  };
+
+  return (
+    <Box css={{ overflow: "hidden", height: "100%" }}>
       <Flex
         css={{
-          px: "$12",
-          mt: "$8",
-          "@xsMax": { px: "$10" },
-          gap: "$12",
+          gap: "$8",
+          pt: "$5",
+          height: "fit-content",
+          flexWrap: "wrap",
+          "@lg": {
+            flexWrap: "nowrap",
+          },
+          "@sm": {
+            pt: "$10",
+          },
         }}
-        direction={"column"}
+        justify={"center"}
       >
-        {/* Card Section Top */}
-        <Box>
+        <Flex
+          css={{
+            px: "$12",
+            mt: "$8",
+            "@xsMax": { px: "$10" },
+            gap: "$12",
+          }}
+          direction={"column"}
+        >
+          {/* Card Section Top */}
+          <Box>
+            <Text
+              h3
+              css={{
+                textAlign: "center",
+                "@sm": {
+                  textAlign: "inherit",
+                },
+              }}
+            >
+              Balanço de Contas
+            </Text>
+            <Flex
+              css={{
+                gap: "$10",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                "@sm": {
+                  flexWrap: "nowrap",
+                },
+              }}
+              direction={"row"}
+            >
+              <CardBalance1 />
+              <CardClientesCadastrados
+                qtdClientesCadastrados={clientes.length}
+              />
+              <CardBalance3 />
+            </Flex>
+          </Box>
+
+          {/* Chart */}
+          <Box>
+            <Text
+              h3
+              css={{
+                textAlign: "center",
+                "@lg": {
+                  textAlign: "inherit",
+                },
+              }}
+            >
+              Estatísticas
+            </Text>
+            <Box
+              css={{
+                width: "100%",
+                backgroundColor: "$accents0",
+                boxShadow: "$lg",
+                borderRadius: "$2xl",
+                px: "$10",
+                py: "$10",
+              }}
+            >
+              <Chart />
+            </Box>
+          </Box>
+        </Flex>
+
+        {/* Left Section */}
+        <Box
+          css={{
+            px: "$12",
+            mt: "$8",
+            height: "fit-content",
+            "@xsMax": { px: "$10" },
+            gap: "$6",
+            overflow: "hidden",
+          }}
+        >
           <Text
             h3
             css={{
               textAlign: "center",
-              "@sm": {
+              "@lg": {
                 textAlign: "inherit",
               },
             }}
           >
-            Balanço de Contas
+            Últimos Cadastros e Transações
           </Text>
           <Flex
+            direction={"column"}
+            justify={"center"}
             css={{
-              gap: "$10",
+              gap: "$8",
+              flexDirection: "row",
               flexWrap: "wrap",
-              justifyContent: "center",
               "@sm": {
                 flexWrap: "nowrap",
               },
+              "@lg": {
+                flexWrap: "nowrap",
+                flexDirection: "column",
+              },
             }}
-            direction={"row"}
           >
-            <CardBalance1 />
-            <CardClientesCadastrados qtdClientesCadastrados={clientes.length} />
-            <CardBalance3 />
+            <CardTransactions />
           </Flex>
         </Box>
+      </Flex>
 
-        {/* Chart */}
-        <Box>
+      {/* Table Latest Users */}
+      <Flex
+        direction={"column"}
+        justify={"center"}
+        css={{
+          width: "100%",
+          py: "$10",
+          px: "$10",
+          mt: "$8",
+          "@sm": { px: "$20" },
+        }}
+      >
+        <Flex justify={"between"} wrap={"wrap"}>
           <Text
             h3
             css={{
@@ -90,106 +184,28 @@ export const Content = ({ clientes }: Props) => (
               },
             }}
           >
-            Estatísticas
+            Ultimos Usuarios
           </Text>
-          <Box
-            css={{
-              width: "100%",
-              backgroundColor: "$accents0",
-              boxShadow: "$lg",
-              borderRadius: "$2xl",
-              px: "$10",
-              py: "$10",
-            }}
-          >
-            <Chart />
-          </Box>
-        </Box>
-      </Flex>
-
-      {/* Left Section */}
-      <Box
-        css={{
-          px: "$12",
-          mt: "$8",
-          height: "fit-content",
-          "@xsMax": { px: "$10" },
-          gap: "$6",
-          overflow: "hidden",
-        }}
-      >
-        <Text
-          h3
-          css={{
-            textAlign: "center",
-            "@lg": {
-              textAlign: "inherit",
-            },
-          }}
-        >
-          Últimos Cadastros e Transações
-        </Text>
-        <Flex
-          direction={"column"}
-          justify={"center"}
-          css={{
-            gap: "$8",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            "@sm": {
-              flexWrap: "nowrap",
-            },
-            "@lg": {
-              flexWrap: "nowrap",
-              flexDirection: "column",
-            },
-          }}
-        >
-          <CardTransactions />
+          <NextLink href="/clientes">
+            <Link
+              block
+              color="primary"
+              css={{
+                textAlign: "center",
+                "@lg": {
+                  textAlign: "inherit",
+                },
+              }}
+            >
+              Ver Todos
+            </Link>
+          </NextLink>
         </Flex>
-      </Box>
-    </Flex>
-
-    {/* Table Latest Users */}
-    <Flex
-      direction={"column"}
-      justify={"center"}
-      css={{
-        width: "100%",
-        py: "$10",
-        px: "$10",
-        mt: "$8",
-        "@sm": { px: "$20" },
-      }}
-    >
-      <Flex justify={"between"} wrap={"wrap"}>
-        <Text
-          h3
-          css={{
-            textAlign: "center",
-            "@lg": {
-              textAlign: "inherit",
-            },
-          }}
-        >
-          Ultimos Usuarios
-        </Text>
-        <NextLink href="/clientes">
-          <Link
-            block
-            color="primary"
-            css={{
-              textAlign: "center",
-              "@lg": {
-                textAlign: "inherit",
-              },
-            }}
-          >
-            Ver Todos
-          </Link>
-        </NextLink>
+        <TableWrapper
+          clientes={clientesState}
+          handleClickDetails={showDetails}
+        />
       </Flex>
-      <TableWrapper clientes={clientes} />
-    </Flex>
-  </Box>
-);
+    </Box>
+  );
+};

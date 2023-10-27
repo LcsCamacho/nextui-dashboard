@@ -29,13 +29,14 @@ export const Accounts = ({ clientes }: { clientes: Cliente[] }) => {
   const [clienteSelected, setClienteSelected] = useState<Cliente | null>(null);
   const [showModalDetails, setShowModalDetails] = useState(false);
 
-  const fetchClientes = async () => {
-    const clientes = await ClientesServices.getClientes();
-    setClientesState(clientes);
-  };
   const showDetails = (cliente: Cliente) => {
     setClienteSelected(cliente);
     setShowModalDetails(true);
+  };
+  
+  const fetchClientes = async () => {
+    const clientes = await ClientesServices.getClientes();
+    setClientesState(clientes);
   };
 
   return (
