@@ -11,7 +11,8 @@ import { CardBalance3 } from "./card-balance3";
 import { CardTransactions } from "./card-transactions";
 import { users } from "../accounts/table/data";
 import { Cliente } from "@prisma/client";
-import {useState} from "react";
+import { useState } from "react";
+import { DetailsCliente } from "../accounts/details";
 
 const Chart = dynamic(
   () => import("../charts/steam").then((mod) => mod.Steam),
@@ -202,6 +203,11 @@ export const Content = ({ clientes }: Props) => {
             </Link>
           </NextLink>
         </Flex>
+        <DetailsCliente
+          cliente={clienteSelected!}
+          isShow={showModalDetails}
+          closeHandler={() => setShowModalDetails(false)}
+        />
         <TableWrapper
           clientes={clientesState}
           handleClickDetails={showDetails}
