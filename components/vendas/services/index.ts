@@ -1,5 +1,6 @@
 import { UseAxios } from "../../hooks/useAxios";
 import { urlLocal, urlProd, currentUrl } from "../../constants/urlFetch";
+import { Venda } from "@prisma/client";
 
 
 export const VendasServices = {
@@ -11,6 +12,11 @@ export const VendasServices = {
     getVendasWithClientesAndLimit: async (limit: number) => {
       const { api } = UseAxios(currentUrl);
       const { data } = await api.get(`/vendas?withClientes=true&limit=${limit}`);
+      return data;
+    },
+    getVendas: async () => {
+      const { api } = UseAxios(currentUrl);
+      const { data } = await api.get<Venda[]>("/vendas");
       return data;
     },
     deleteVenda: async (id: string) => {

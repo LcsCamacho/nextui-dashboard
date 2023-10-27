@@ -1,10 +1,27 @@
-import { Card, Text } from "@nextui-org/react";
+import { Card, Text, Loading } from "@nextui-org/react";
 import React from "react";
 import { Community } from "../icons/community";
 import { Box } from "../styles/box";
 import { Flex } from "../styles/flex";
+import { VendasServices } from "../vendas/services";
 
 export const CardBalance1 = () => {
+  const [valorAReceber, setValorAReceber] = React.useState(0);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const fetchVendas = async () => {
+      const vendas = await VendasServices.getVendas();
+      let total = 0;
+      vendas.forEach((venda) => {
+        total += venda.valorTotal;
+        total -= venda.valorPago;
+      });
+      setValorAReceber(total);
+    };
+    fetchVendas().finally(() => setLoading(false));
+  }, []);
+
   return (
     <Card
       css={{
@@ -28,7 +45,8 @@ export const CardBalance1 = () => {
         </Flex>
         <Flex css={{ gap: "$6", py: "$4" }} align={"center"}>
           <Text span size={"$xl"} css={{ color: "white" }} weight={"semibold"}>
-            R$15,910
+            {!loading && `R$ ${valorAReceber.toFixed(2)}`}
+            {loading && <Loading type="points-opacity" size="lg" color="white" />}
           </Text>
           <Text span css={{ color: "$green800" }} size={"$xs"}>
             + 2.7%

@@ -1,18 +1,16 @@
-import React from "react";
-import { Text, Link } from "@nextui-org/react";
-import { Box } from "../styles/box";
-import dynamic from "next/dynamic";
-import { Flex } from "../styles/flex";
-import { TableWrapper } from "../accounts/table/table";
-import NextLink from "next/link";
-import { CardBalance1 } from "./card-balance1";
-import { CardClientesCadastrados } from "./card-clientes-cadastrados";
-import { CardBalance3 } from "./card-balance3";
-import { CardTransactions } from "./card-transactions";
-import { users } from "../accounts/table/data";
+import { Link, Text } from "@nextui-org/react";
 import { Cliente } from "@prisma/client";
+import dynamic from "next/dynamic";
+import NextLink from "next/link";
 import { useState } from "react";
 import { DetailsCliente } from "../accounts/details";
+import { TableWrapper } from "../accounts/table/table";
+import { Box } from "../styles/box";
+import { Flex } from "../styles/flex";
+import { CardBalance1 } from "./card-balance1";
+import { CardBalance3 } from "./card-balance3";
+import { CardClientesCadastrados } from "./card-clientes-cadastrados";
+import { CardTransactions } from "./card-transactions";
 
 const Chart = dynamic(
   () => import("../charts/steam").then((mod) => mod.Steam),
