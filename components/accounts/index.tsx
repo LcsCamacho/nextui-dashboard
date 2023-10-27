@@ -9,6 +9,8 @@ import { UsersIcon } from "../icons/breadcrumb/users-icon";
 import { Flex } from "../styles/flex";
 import { TableWrapper } from "./table/table";
 import { AddUser } from "./add-user";
+import { ClientesServices } from "./services";
+import { DetailsCliente } from "./details";
 
 export interface User {
   id: number;
@@ -24,6 +26,18 @@ export interface User {
 
 export const Accounts = ({ clientes }: { clientes: Cliente[] }) => {
   const [clientesState, setClientesState] = useState(clientes);
+  const [clienteSelected, setClienteSelected] = useState<Cliente | null>(null);
+  const [showModalDetails, setShowModalDetails] = useState(false);
+
+  const fetchClientes = async () => {
+    const clientes = await ClientesServices.getClientes();
+    setClientesState(clientes);
+  };
+  const showDetails = (cliente: Cliente) => {
+    setClienteSelected(cliente);
+    setShowModalDetails(true);
+  };
+
   return (
     <Flex
       css={{
@@ -45,7 +59,6 @@ export const Accounts = ({ clientes }: { clientes: Cliente[] }) => {
           </Link>
           <Text>/</Text>
         </Crumb>
-
         <Crumb>
           <UsersIcon />
           <CrumbLink href="#">Clientes</CrumbLink>
@@ -87,14 +100,22 @@ export const Accounts = ({ clientes }: { clientes: Cliente[] }) => {
           />
         </Flex>
         <Flex direction={"row"} css={{ gap: "$6" }} wrap={"wrap"}>
-          <AddUser />
+          <AddUser
+            refetch={() => {
+              fetchClientes();
+            }}
+          />
           <Button auto iconRight={<ExportIcon />}>
             Exportar para Excel
           </Button>
         </Flex>
       </Flex>
-
-      <TableWrapper clientes={clientesState} />
+      <DetailsCliente
+        cliente={clienteSelected!}
+        isShow={showModalDetails}
+        closeHandler={() => setShowModalDetails(false)}
+      />
+      <TableWrapper handleClickDetails={showDetails} clientes={clientesState} />
     </Flex>
   );
 };

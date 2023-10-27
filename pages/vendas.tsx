@@ -1,13 +1,13 @@
 import axios from "axios";
 import { GetServerSideProps, NextPage } from "next";
-
+import { currentUrl } from "../components/constants/urlFetch";
 import Vendas from "../components/vendas";
 import { VendaWithActionsAndCliente } from "../components/vendas/table/render-cell";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const {
     data,
-  } = await axios.get("http://localhost:3000/api/vendas?withClientes=true");
+  } = await axios.get(currentUrl+"/vendas?withClientes=true");
   console.log(data)
   return {
     props: {

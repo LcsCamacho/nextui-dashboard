@@ -22,8 +22,6 @@ const Vendas = ({ vendas }: { vendas: VendaWithActionsAndCliente[] }) => {
     setLoading(false);
   };
 
-  
-
   return (
     <Flex
       css={{

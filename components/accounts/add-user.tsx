@@ -1,9 +1,13 @@
-import { Button, Divider, Input, Modal, Text } from "@nextui-org/react";
+import { Button, Divider, Input, Modal, Text,  } from "@nextui-org/react";
 import React from "react";
 import { Flex } from "../styles/flex";
 import { UseAxios } from "../hooks/useAxios";
+import { ClientesServices } from "./services";
+import { ClienteToBeCreated } from "./types";
 
-export const AddUser = () => {
+export const AddUser = ({refetch}: {
+  refetch: () => void
+}) => {
   const [visible, setVisible] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const handler = () => setVisible(true);
@@ -20,7 +24,7 @@ export const AddUser = () => {
   const submitUser = async () => {
     let isValid = true;
     setLoading(true);
-    const data = {
+    const clienteToBeCreated:ClienteToBeCreated = {
       primeiroNome: primeiroNome.current?.value,
       segundoNome: segundoNome.current?.value,
       email: email.current?.value,
@@ -30,18 +34,18 @@ export const AddUser = () => {
       numero: numero.current?.value,
       cpf: cpf.current?.value,
     };
-    Object.keys(data).forEach((key) => {
-      const keyTyped = key as keyof typeof data;
+    Object.keys(clienteToBeCreated).forEach((key) => {
+      const keyTyped = key as keyof typeof clienteToBeCreated;
       if (!isValid) return;
-      if (!data[keyTyped]) {
+      if (!clienteToBeCreated[keyTyped]) {
         isValid = false;
       }
     });
     if(!isValid) return alert("Preencha todos os campos");
     try {
-      const response = await api.post("/clientes", data);
+      const response = await ClientesServices.createCliente( clienteToBeCreated);
       console.log(response);
-      window.location.reload();
+      refetch();
     } catch (error) {
       console.log(error);
     } finally {

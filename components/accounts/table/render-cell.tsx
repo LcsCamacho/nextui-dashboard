@@ -13,9 +13,10 @@ export interface ClienteWithActions extends Cliente {
 interface Props {
   cliente: ClienteWithActions;
   columnKey: string | React.Key;
+  handleClickDetails?: (cliente: Cliente) => void;
 }
 
-export const RenderCell = ({ cliente, columnKey }: Props) => {
+export const RenderCell = ({ cliente, columnKey, handleClickDetails }: Props) => {
   const cellValue = cliente[columnKey as keyof ClienteWithActions];
   const Cells = {
     nome: () => (
@@ -29,13 +30,8 @@ export const RenderCell = ({ cliente, columnKey }: Props) => {
       </User>
     ),
     telefone: () => (
-      <Col>
-      <Row>
-         <Text b size={14} css={{tt: 'capitalize'}}>
-            {String(cellValue)}
-         </Text>
-      </Row>
-   </Col>
+      // @ts-ignore
+      <StyledBadge type={String(cliente.telefone)}>{cliente.telefone}</StyledBadge>
     ),
     rua: () => (
       <Col>
@@ -65,7 +61,9 @@ export const RenderCell = ({ cliente, columnKey }: Props) => {
       >
         <Col css={{ d: "flex" }}>
           <Tooltip content="Details">
-            <IconButton onClick={() => console.log("View user", cliente.id)}>
+            <IconButton onClick={() => {
+              if (handleClickDetails) handleClickDetails(cliente)
+            }}>
               <EyeIcon size={20} fill="#979797" />
             </IconButton>
           </Tooltip>

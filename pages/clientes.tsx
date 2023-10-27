@@ -1,18 +1,18 @@
-import React from "react";
-import { Accounts } from "../components/accounts";
-import axios from "axios";
-import { User } from "../components/accounts";
-import { GetServerSideProps, NextPage } from "next";
 import { Cliente } from "@prisma/client";
+import axios from "axios";
+import { GetServerSideProps, NextPage } from "next";
+import { Accounts } from "../components/accounts";
 import { users } from "../components/accounts/table/data";
+import { currentUrl } from "../components/constants/urlFetch";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const {
     data,
-  } = await axios.get("https://primodas.vercel.app/api/clientes");
+  } = await axios.get(currentUrl+"/clientes");
+  console.log(data)
   return {
     props: {
-      clientes: data.length > 0 ? data : users,
+      clientes: data,
     },
   };
 };

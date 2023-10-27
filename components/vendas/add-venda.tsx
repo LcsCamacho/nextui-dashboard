@@ -13,17 +13,17 @@ export const AddVenda = ({refetch}: {
   const cliente = React.useRef<HTMLSelectElement>(null);
   const valor = React.useRef<HTMLInputElement>(null);
   const handler = () => setVisible(true);
-  const { api } = UseAxios("http://localhost:3000/api");
+  const { api } = UseAxios();
 
-  const getClientes = React.useCallback(async () => {
+  const fetchClientes = React.useCallback(async () => {
     const response = await api.get("/clientes");
     setClientes(response.data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
-    getClientes();
-  }, [getClientes]);
+    fetchClientes();
+  }, [fetchClientes]);
 
   const submitVenda = async () => {
     let isValid = true;

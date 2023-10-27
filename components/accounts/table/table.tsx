@@ -6,7 +6,12 @@ import { RenderCell } from "./render-cell";
 import { ClienteWithActions } from "./render-cell";
 import { Cliente } from "@prisma/client";
 
-export const TableWrapper = ({ clientes }: { clientes: Cliente[] }) => {
+interface Props {
+  clientes: ClienteWithActions[];
+  handleClickDetails: (cliente: Cliente) => void;
+}
+
+export const TableWrapper = ({ clientes, handleClickDetails}: Props) => {
   return (
     <Box
       css={{
@@ -42,7 +47,7 @@ export const TableWrapper = ({ clientes }: { clientes: Cliente[] }) => {
             <Table.Row>
               {(columnKey) => (
                 <Table.Cell>
-                  <RenderCell cliente={item} columnKey={columnKey} />
+                  <RenderCell handleClickDetails={handleClickDetails} cliente={item} columnKey={columnKey} />
                 </Table.Cell>
               )}
             </Table.Row>
