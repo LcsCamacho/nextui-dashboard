@@ -4,18 +4,28 @@ import Chart, { Props } from "react-apexcharts";
 
 const state: Props["series"] = [
   {
-    name: "A receber",
+    name: "Vendido",
     data: [31, 40, 28, 51, 42, 109, 100],
   },
   {
-    name: "Vendido",
+    name: "A receber",
     data: [11, 32, 45, 32, 34, 52, 41],
   },
+  {
+    name: "Recebido",
+    data: [11, 32, 45, 32, 34, 52, 41],
+  }
 ];
 
 const options: Props["options"] = {
+  plotOptions: {
+    bar: {
+      rangeBarGroupRows: true,
+      rangeBarOverlap: true
+    }
+  },
   chart: {
-    type: "pie",
+    type: "bar",
     animations: {
       easing: "linear",
       speed: 300,
@@ -34,9 +44,8 @@ const options: Props["options"] = {
       show: false,
     },
   },
-
   xaxis: {
-    categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
+    categories: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul"],
     labels: {
       // show: false,
       style: {
@@ -88,7 +97,7 @@ export const Steam = () => {
         }}
       >
         <div id="chart">
-          <Chart options={options} series={state} type="area" height={425} />
+          <Chart options={options} series={state} type="bar" height={425} />
         </div>
       </Box>
     </>

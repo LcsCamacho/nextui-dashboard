@@ -34,7 +34,7 @@ export const CardTransactions = () => {
       <Card.Body css={{ py: "$10" }}>
         <Flex css={{ gap: "$5" }} justify={"center"}>
           <Text h3 css={{ textAlign: "center" }}>
-            Ultimas Transações
+            Ultimas Vendas
           </Text>
         </Flex>
         <Flex css={{ gap: "$6", py: "$4" }} direction={"column"}>

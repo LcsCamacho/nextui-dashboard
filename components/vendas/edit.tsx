@@ -94,7 +94,6 @@ export const EditarVenda = ({ venda, isShow, closeHandler, refreshVendas }: Prop
           <Input
             type="number"
             labelLeft="R$"
-            label="Pagar agora quanto?"
             value={valorPago}
             max={valorRestante}
             disabled={pago}

@@ -1,10 +1,25 @@
-import { Card, Text } from "@nextui-org/react";
+import { Card, Text, Loading } from "@nextui-org/react";
 import React from "react";
 import { Community } from "../icons/community";
 import { Box } from "../styles/box";
 import { Flex } from "../styles/flex";
+import { VendasServices } from "../vendas/services";
 
 export const CardBalance3 = () => {
+  const [valorRecebido, setValorRecebido] = React.useState(0);
+  const [loading, setLoading] = React.useState(false);
+  React.useEffect(() => {
+    (async () => {
+      setLoading(true);
+      const vendas = await VendasServices.getVendas();
+      let countValorRecebido = 0;
+      vendas.forEach((venda) => {
+        countValorRecebido += venda.valorPago;
+      });
+      setValorRecebido(countValorRecebido);
+      setLoading(false);
+    })();
+  }, []);
   return (
     <Card
       css={{
@@ -28,9 +43,13 @@ export const CardBalance3 = () => {
         </Flex>
         <Flex css={{ gap: "$6", py: "$4" }} align={"center"}>
           <Text span size={"$xl"} css={{ color: "white" }} weight={"semibold"}>
-            R$3,910
+            {loading && <Loading type="points-opacity" size="lg" color="white" />}
+            {!loading && valorRecebido.toLocaleString("pt-br", {
+              style: "currency",
+              currency: "BRL",
+            })}
           </Text>
-          <Text span css={{ color: "$green800" }} size={"$xs"}>
+          <Text span css={{ color: "$red600" }} size={"$xs"}>
             + 2.7%
           </Text>
         </Flex>
