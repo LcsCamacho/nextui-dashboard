@@ -139,7 +139,7 @@ export const Content = ({ clientes }: Props) => {
               },
             }}
           >
-            Últimos Cadastros e Transações
+            Relatório do Dia
           </Text>
           <Flex
             direction={"column"}

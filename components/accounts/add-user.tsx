@@ -1,17 +1,22 @@
-import { Button, Divider, Input, Modal, Text,  } from "@nextui-org/react";
+import {
+  Button,
+  Divider,
+  Input,
+  Modal,
+  Text,
+  Loading,
+} from "@nextui-org/react";
 import React from "react";
 import { Flex } from "../styles/flex";
-import { UseAxios } from "../hooks/useAxios";
 import { ClientesServices } from "./services";
 import { ClienteToBeCreated } from "./types";
+import { verificaSeTemDadoNullObjeto } from "../../utils/verificaSeTemNullObjeto";
 
-export const AddUser = ({refetch}: {
-  refetch: () => void
-}) => {
+export const AddUser = ({ refetch }: { refetch: () => void }) => {
   const [visible, setVisible] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const handler = () => setVisible(true);
-  const { api } = UseAxios();
+  const [success, setSuccess] = React.useState(false);
+  const [error, setError] = React.useState(false);
   const primeiroNome = React.useRef<HTMLInputElement>(null);
   const segundoNome = React.useRef<HTMLInputElement>(null);
   const email = React.useRef<HTMLInputElement>(null);
@@ -20,11 +25,12 @@ export const AddUser = ({refetch}: {
   const bairro = React.useRef<HTMLInputElement>(null);
   const numero = React.useRef<HTMLInputElement>(null);
   const cpf = React.useRef<HTMLInputElement>(null);
+  const handler = () => setVisible(true);
 
   const submitUser = async () => {
-    let isValid = true;
+    if(success) return
     setLoading(true);
-    const clienteToBeCreated:ClienteToBeCreated = {
+    const clienteToBeCreated: ClienteToBeCreated = {
       primeiroNome: primeiroNome.current?.value,
       segundoNome: segundoNome.current?.value,
       email: email.current?.value,
@@ -34,27 +40,25 @@ export const AddUser = ({refetch}: {
       numero: numero.current?.value,
       cpf: cpf.current?.value,
     };
-    Object.keys(clienteToBeCreated).forEach((key) => {
-      const keyTyped = key as keyof typeof clienteToBeCreated;
-      if (!isValid) return;
-      if (!clienteToBeCreated[keyTyped]) {
-        isValid = false;
-      }
-    });
-    if(!isValid) return alert("Preencha todos os campos");
     try {
-      const response = await ClientesServices.createCliente( clienteToBeCreated);
+      if (!verificaSeTemDadoNullObjeto(clienteToBeCreated)) return alert("Preencha todos os campos");
+      const response = await ClientesServices.createCliente(clienteToBeCreated);
       console.log(response);
-      refetch();
+      setSuccess(true);
     } catch (error) {
+      setError(true);
       console.log(error);
     } finally {
+      refetch();
       setLoading(false);
     }
   };
 
   const closeHandler = () => {
     setVisible(false);
+    setLoading(false);
+    setError(false);
+    setSuccess(false);
   };
 
   return (
@@ -65,7 +69,17 @@ export const AddUser = ({refetch}: {
       <Modal
         closeButton
         aria-labelledby="modal-title"
-        width="600px"
+        scroll
+        width="100%"
+        css={{
+          margin: "auto",
+          maxHeight: "90vh",
+          maxWidth: 720,
+          "@smMax": {
+            maxWidth: "90vw",
+            margin: "auto",
+          },
+        }}
         open={visible}
         onClose={closeHandler}
       >
@@ -81,14 +95,15 @@ export const AddUser = ({refetch}: {
             css={{
               flexWrap: "wrap",
               gap: "$8",
-              "@lg": { flexWrap: "nowrap", gap: "$12" },
+              "@smMin": { flexWrap: "nowrap", gap: "$12" },
             }}
           >
             <Flex
               css={{
                 gap: "$10",
                 flexWrap: "wrap",
-                "@lg": { flexWrap: "nowrap" },
+                "@smMin": { flexWrap: "nowrap", gap: "$12" },
+                "@smMax": { flexWrap: "wrap", gap: "$6" },
               }}
             >
               <Input
@@ -115,7 +130,8 @@ export const AddUser = ({refetch}: {
               css={{
                 gap: "$10",
                 flexWrap: "wrap",
-                "@lg": { flexWrap: "nowrap" },
+                "@smMin": { flexWrap: "nowrap", gap: "$12" },
+                "@smMax": { flexWrap: "wrap", gap: "$6" },
               }}
             >
               <Input
@@ -150,7 +166,8 @@ export const AddUser = ({refetch}: {
               css={{
                 gap: "$10",
                 flexWrap: "wrap",
-                "@lg": { flexWrap: "nowrap" },
+                "@smMin": { flexWrap: "nowrap", gap: "$12" },
+                "@smMax": { flexWrap: "wrap", gap: "$6" },
               }}
             >
               <Input
@@ -186,14 +203,17 @@ export const AddUser = ({refetch}: {
         <Divider css={{ my: "$5" }} />
         <Modal.Footer>
           <Button
-            disabled={loading}
-            auto
+            css={{ minWidth: 130, width: success ? "100%" : "auto" }}
+            color={success ? "success" : error ? "error" : "primary"}
+            disabled={loading || error}
             onClick={async () => {
               await submitUser();
-              closeHandler();
             }}
           >
-            Cadastrar cliente
+            {!loading && !success && !error && "Pronto"}
+            {!loading && error && "Erro"}
+            {loading && <Loading type="spinner" />}
+            {!loading && success && "Nós cadastramos seu cliente!"}
           </Button>
         </Modal.Footer>
       </Modal>

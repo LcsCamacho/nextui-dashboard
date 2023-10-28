@@ -1,50 +1,50 @@
-import { Button, Divider, Input, Modal } from "@nextui-org/react";
+import {
+  Button,
+  Divider,
+  Input,
+  Modal,
+  Text,
+  Loading,
+} from "@nextui-org/react";
 import React from "react";
 import { Flex } from "../styles/flex";
-import { UseAxios } from "../hooks/useAxios";
 import { Cliente } from "@prisma/client";
+import { VendaToBeCreated } from "./types";
+import { ClientesServices } from "../accounts/services";
+import { VendasServices } from "./services";
+import { verificaSeTemDadoNullObjeto } from "../../utils/verificaSeTemNullObjeto";
 
-export const AddVenda = ({refetch}: {
-  refetch: () => void
-}) => {
+export const AddVenda = ({ refetch }: { refetch: () => void }) => {
   const [visible, setVisible] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
+  const [error, setError] = React.useState(false);
   const [clientes, setClientes] = React.useState<Cliente[]>([]);
   const cliente = React.useRef<HTMLSelectElement>(null);
   const valor = React.useRef<HTMLInputElement>(null);
   const handler = () => setVisible(true);
-  const { api } = UseAxios();
-
-  const fetchClientes = React.useCallback(async () => {
-    const response = await api.get("/clientes");
-    setClientes(response.data);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   React.useEffect(() => {
-    fetchClientes();
-  }, [fetchClientes]);
+    (async () => {
+      setClientes(await ClientesServices.getClientes());
+    })();
+  }, []);
 
   const submitVenda = async () => {
-    let isValid = true;
+    if (success) return;
     setLoading(true);
-    const data = {
+    const data: VendaToBeCreated = {
       clienteId: cliente.current?.value,
       valor: valor.current?.value,
     };
-    Object.keys(data).forEach((key) => {
-      const keyTyped = key as keyof typeof data;
-      if (!isValid) return;
-      if (!data[keyTyped]) {
-        isValid = false;
-      }
-    });
-    if (!isValid) return alert("Preencha todos os campos");
     try {
-      const response = await api.post("/vendas", data);
+      if (!verificaSeTemDadoNullObjeto(data)) return;
+      const response = await VendasServices.createVenda(data);
       console.log(response);
+      setSuccess(true);
     } catch (error) {
       console.log(error);
+      setError(true);
     } finally {
       setLoading(false);
       refetch();
@@ -53,20 +53,33 @@ export const AddVenda = ({refetch}: {
 
   const closeHandler = () => {
     setVisible(false);
+    setLoading(false);
+    setError(false);
+    setSuccess(false);
   };
 
   return (
     <div>
       <Button onClick={handler}>Cadastrar Venda</Button>
       <Modal
+        scroll
         closeButton
         aria-labelledby="modal-title"
-        className="modal modal-primary w-[600px]"
+        css={{
+          maxHeight: "90vh",
+          maxWidth: 640,
+          "@smMax": {
+            maxWidth: "90vw",
+            margin: "auto",
+          },
+        }}
         open={visible}
         onClose={closeHandler}
       >
         <Modal.Header style={{ justifyContent: "start" }}>
-          <h4 id="modal-title">Adicionar nova venda</h4>
+          <Text h4 id="modal-title">
+            Adicionar nova venda
+          </Text>
         </Modal.Header>
         <Divider style={{ marginBlock: 5 }} />
         <Modal.Body style={{ paddingTop: 10 }}>
@@ -137,13 +150,17 @@ export const AddVenda = ({refetch}: {
         <Divider style={{ marginBlock: 5 }} />
         <Modal.Footer>
           <Button
-            disabled={loading}
+            css={{ minWidth: 130, width: success ? "100%" : "auto" }}
+            color={success ? "success" : error ? "error" : "primary"}
+            disabled={loading || error}
             onClick={async () => {
               await submitVenda();
-              closeHandler();
             }}
           >
-            Cadastrar venda
+            {!loading && !success && !error && "Pronto"}
+            {!loading && error && "Erro"}
+            {loading && <Loading type="spinner" />}
+            {!loading && success && "Nós cadastramos sua venda!"}
           </Button>
         </Modal.Footer>
       </Modal>

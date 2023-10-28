@@ -2,28 +2,47 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../prisma/connect";
 import { Venda, Cliente, Prisma } from "@prisma/client";
 
-const methodsAllowed = ["GET", "POST", "DELETE"];
+const methodsAllowed = ["GET", "POST", "DELETE", "PUT"];
 
 enum MethodsAlloweds {
   GET = "GET",
   POST = "POST",
   DELETE = "DELETE",
+  PUT = "PUT",
 }
+
+const getVendasByIdCliente = async (id: string) => {
+  return await prisma.venda.findMany({
+    where: {
+      clienteId: id,
+    },
+    include: {
+      cliente: true,
+    },
+  });
+};
+
+const getVendasWithClientes = async (limit?: number) => {
+  return await prisma.venda.findMany({
+    orderBy: {
+      updatedAt: "desc",
+    },
+    take: limit || undefined,
+    include: {
+      cliente: true,
+    },
+  });
+};
 
 const services = {
   GET: async (req: NextApiRequest) => {
     console.log(req.query);
-    if (req.query.withClientes) {
-      return await prisma.venda.findMany({
-        orderBy: {
-          updatedAt: "desc",
-        },
-        take: Number(req.query.limit) || undefined,
-        include: {
-          cliente: true,
-        },
-      });
-    }
+    if (req.query.cliId)
+      return await getVendasByIdCliente(String(req.query.cliId));
+
+    if (req.query.withClientes)
+      return await getVendasWithClientes(Number(req.query.limit));
+
     return await prisma.venda.findMany();
   },
   POST: async (req: NextApiRequest) => {
@@ -44,11 +63,11 @@ const services = {
         data: {
           valorMovimentado: {
             increment: Number(valor),
-          }
-        }
+          },
+        },
       }),
     ]);
-    return {success: true};
+    return { success: true };
   },
   DELETE: async (req: NextApiRequest) => {
     const { id } = req.query;
@@ -58,7 +77,24 @@ const services = {
       },
     });
     return { success: true };
-  }
+  },
+  PUT: async (req: NextApiRequest) => {
+    const { id } = req.query;
+    const { valorPago, pago, valorTotal }: Venda = req.body;
+    await prisma.venda.update({
+      where: {
+        id: String(id),
+      },
+      data: {
+        valorPago: {
+          increment: Number(valorPago),
+        },
+        pago: Boolean(pago),
+        valorTotal: Number(valorTotal),
+      },
+    });
+    return { success: true };
+  },
 };
 
 export default async function handler(
@@ -75,7 +111,7 @@ export default async function handler(
     const response = await services[method](req);
     return res.status(200).json(response);
   } catch (error: Prisma.PrismaClientKnownRequestError | any) {
-    console.log(error)
+    console.log(error);
     return res.status(500).json({ message: error.message });
   }
 }

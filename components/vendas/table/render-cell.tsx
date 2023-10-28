@@ -7,19 +7,26 @@ import { users } from "./data";
 import { IconButton, StyledBadge } from "./table.styled";
 import { Venda, Cliente } from "@prisma/client";
 import { VendasServices } from "../services";
+import { VendaWithCliente } from "../types";
 
-export interface VendaWithActionsAndCliente extends Venda {
+export interface VendaWithActionsAndCliente extends VendaWithCliente {
   actions?: string;
-  cliente: Cliente
 }
 
 interface Props {
   venda: VendaWithActionsAndCliente;
   columnKey: string | React.Key;
+  handleClickDetails?: (venda: VendaWithActionsAndCliente) => void;
+  handleClickEdit?: (venda: VendaWithActionsAndCliente) => void;
 }
 
-export const RenderCell = ({ venda, columnKey }: Props) => {
-  if(!venda) return (<></>)
+export const RenderCell = ({
+  venda,
+  columnKey,
+  handleClickDetails,
+  handleClickEdit,
+}: Props) => {
+  if (!venda) return <></>;
 
   const Cells = {
     nome: () => (
@@ -55,17 +62,23 @@ export const RenderCell = ({ venda, columnKey }: Props) => {
     createdAt: () => (
       // @ts-ignore
       <Col>
-      <Row>
+        <Row>
           <Text b size={14} css={{ tt: "capitalize" }}>
             {new Date(venda.createdAt).toLocaleDateString()}
           </Text>
         </Row>
-      <Row>
+        <Row>
           <Text b size={13} css={{ tt: "capitalize", color: "$accents7" }}>
             {new Date(venda.createdAt).toLocaleTimeString()}
           </Text>
         </Row>
-        </Col>
+      </Col>
+    ),
+    pago: () => (
+      // @ts-ignore
+      <StyledBadge color={"$accents7"} type={venda.pago ? "active" : "warning"}>
+        {venda.pago ? "PAGO" : "PENDENTE"}
+      </StyledBadge>
     ),
     actions: () => (
       <Row
@@ -74,26 +87,32 @@ export const RenderCell = ({ venda, columnKey }: Props) => {
         css={{ gap: "$8", "@md": { gap: 0 } }}
       >
         <Col css={{ d: "flex" }}>
-          <Tooltip content="Details">
-            <IconButton onClick={() => console.log("View Venda", venda.id)}>
+          <Tooltip content="Detalhes">
+            <IconButton
+              onClick={() => {
+                if (handleClickDetails) handleClickDetails(venda);
+              }}
+            >
               <EyeIcon size={20} fill="#979797" />
             </IconButton>
           </Tooltip>
         </Col>
         <Col css={{ d: "flex" }}>
-          <Tooltip content="Edit Venda">
-            <IconButton onClick={() => console.log("Edit Venda", venda.id)}>
+          <Tooltip content="Editar venda">
+            <IconButton onClick={() => {
+              if (handleClickEdit) handleClickEdit(venda);
+            }}>
               <EditIcon size={20} fill="#979797" />
             </IconButton>
           </Tooltip>
         </Col>
         <Col css={{ d: "flex" }}>
           <Tooltip
-            content="Delete Venda"
+            content="Deletar venda"
             color="error"
             onClick={() => {
               console.log("Delete Venda", venda.id);
-              VendasServices.deleteVenda(venda.id)
+              VendasServices.deleteVenda(venda.id);
             }}
           >
             <IconButton>

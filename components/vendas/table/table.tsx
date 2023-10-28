@@ -4,15 +4,18 @@ import { Box } from "../../styles/box";
 import { columns } from "./data";
 import { RenderCell } from "./render-cell";
 import { VendaWithActionsAndCliente } from "./render-cell";
-
+import { VendaWithCliente } from "../types";
 export const TableWrapperVendas = ({
   vendas,
   loading,
+  handleClickDetails,
+  handleClickEdit,
 }: {
-  vendas: VendaWithActionsAndCliente[];
+  vendas: VendaWithCliente[];
   loading?: boolean;
+  handleClickDetails: (venda: VendaWithCliente) => void;
+  handleClickEdit: (venda: VendaWithCliente) => void;
 }) => {
-
   return (
     <Box
       css={{
@@ -45,12 +48,19 @@ export const TableWrapperVendas = ({
             </Table.Column>
           )}
         </Table.Header>
-        <Table.Body items={vendas}>
+        <Table.Body items={vendas as VendaWithActionsAndCliente[]}>
           {(item) => (
             <Table.Row>
               {(columnKey) => (
                 <Table.Cell>
-                  {!loading && <RenderCell venda={item} columnKey={columnKey} />}
+                  {!loading && (
+                    <RenderCell
+                      handleClickEdit={handleClickEdit}
+                      handleClickDetails={handleClickDetails}
+                      venda={item}
+                      columnKey={columnKey}
+                    />
+                  )}
                   {loading && <p>Carregando...</p>}
                 </Table.Cell>
               )}

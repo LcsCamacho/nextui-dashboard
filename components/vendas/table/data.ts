@@ -3,6 +3,7 @@ export const columns = [
   { name: "VALOR", uid: "valorTotal" },
   { name: "ENDEREÇO", uid: "rua" },
   { name: "DATA", uid: "createdAt" },
+  { name: "STATUS", uid: "pago"},
   { name: "ACTIONS", uid: "actions" },
 ];
 export const users = [

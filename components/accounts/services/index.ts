@@ -1,6 +1,6 @@
 
+import { currentUrl } from "../../constants/urlFetch";
 import { UseAxios } from "../../hooks/useAxios";
-import { urlLocal, urlProd, currentUrl } from "../../constants/urlFetch";
 import { ClienteToBeCreated } from "../types";
 
 export const ClientesServices = {

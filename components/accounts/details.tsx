@@ -1,6 +1,7 @@
-import { Modal, Text, Avatar, Button, Row, Col } from "@nextui-org/react";
+import { Button, Col, Modal, Row, Text } from "@nextui-org/react";
 import { Cliente } from "@prisma/client";
 import { Flex } from "../styles/flex";
+import { useRouter } from "next/router";
 
 interface Props {
   cliente: Cliente;
@@ -9,33 +10,40 @@ interface Props {
 }
 
 export const DetailsCliente = ({ cliente, isShow, closeHandler }: Props) => {
+  const router = useRouter();
   if (!cliente) return null;
-  console.log({ cliente, isShow });
+
+  const irParaPaginaDeVendasFiltrandoPorId = () => {
+    router.push(`/vendas?cliId=${cliente.id}`);
+  }
+
   return (
     <Modal
       visible={isShow}
+      open={isShow}
       onClose={closeHandler}
       aria-labelledby="modal-title"
+      aria-label="modal-description"
       closeButton
-      open={isShow}
-      width="640px"
-      css={{ "@smMax": { maxWidth: "90%", margin: "auto" } }}
-      animated
+      width="100%"
+      css={{
+        margin: "auto",
+        maxHeight: "90vh",
+        maxWidth: 720,
+        "@smMax": {
+          maxWidth: "90vw",
+          margin: "auto",
+        },
+      }}
     >
       <Modal.Header>
         <Text h3>Detalhes do Cliente</Text>
       </Modal.Header>
       <Modal.Body>
-        {/* <Avatar
-          size="large"
-          src={cliente.avatar}
-          text={cliente.nome}
-          css={{ mb: "$4" }}
-        /> */}
         <Flex css={{ fd: "column", jc: "center", ai: "center", gap: "$6" }}>
           <Row css={{ gap: "$6", fw: "wrap" }}>
             <Col>
-              <Text b size={16} css={{ tt: "capitalize", color: "$accents7" }}>
+              <Text b size={16} css={{ tt: "capitalize", color: "$accents9" }}>
                 Nome:{" "}
               </Text>
               <Text b size={14} css={{ tt: "capitalize", color: "$accents7" }}>
@@ -43,7 +51,7 @@ export const DetailsCliente = ({ cliente, isShow, closeHandler }: Props) => {
               </Text>
             </Col>
             <Col>
-              <Text b size={16} css={{ tt: "capitalize", color: "$accents7" }}>
+              <Text b size={16} css={{ tt: "capitalize", color: "$accents9" }}>
                 CPF:{" "}
               </Text>
               <Text b size={14} css={{ tt: "capitalize", color: "$accents7" }}>
@@ -53,7 +61,7 @@ export const DetailsCliente = ({ cliente, isShow, closeHandler }: Props) => {
           </Row>
           <Row css={{ gap: "$6" }}>
             <Col>
-              <Text b size={16} css={{ tt: "capitalize", color: "$accents7" }}>
+              <Text b size={16} css={{ tt: "capitalize", color: "$accents9" }}>
                 Endereço:{" "}
               </Text>
               <Text b size={14} css={{ tt: "capitalize", color: "$accents7" }}>
@@ -68,7 +76,7 @@ export const DetailsCliente = ({ cliente, isShow, closeHandler }: Props) => {
 
           <Row css={{ gap: "$6" }}>
             <Col>
-              <Text b size={16} css={{ tt: "capitalize", color: "$accents7" }}>
+              <Text b size={16} css={{ tt: "capitalize", color: "$accents9" }}>
                 Telefone:{" "}
               </Text>
               <Text b size={14} css={{ tt: "capitalize", color: "$accents7" }}>
@@ -79,7 +87,11 @@ export const DetailsCliente = ({ cliente, isShow, closeHandler }: Props) => {
         </Flex>
       </Modal.Body>
       <Modal.Footer>
-        <Button auto onClick={closeHandler}>
+
+        <Button auto color="primary" onClick={irParaPaginaDeVendasFiltrandoPorId}>
+          Ver compras
+        </Button>
+        <Button auto color="error" onClick={closeHandler}>
           Fechar
         </Button>
       </Modal.Footer>

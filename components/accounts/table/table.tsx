@@ -9,9 +9,14 @@ import { Cliente } from "@prisma/client";
 interface Props {
   clientes: ClienteWithActions[];
   handleClickDetails: (cliente: Cliente) => void;
+  loading?: boolean;
 }
 
-export const TableWrapper = ({ clientes, handleClickDetails}: Props) => {
+export const TableWrapper = ({
+  clientes,
+  handleClickDetails,
+  loading,
+}: Props) => {
   return (
     <Box
       css={{
@@ -47,7 +52,14 @@ export const TableWrapper = ({ clientes, handleClickDetails}: Props) => {
             <Table.Row>
               {(columnKey) => (
                 <Table.Cell>
-                  <RenderCell handleClickDetails={handleClickDetails} cliente={item} columnKey={columnKey} />
+                  {
+                    <RenderCell
+                      handleClickDetails={handleClickDetails}
+                      cliente={item}
+                      columnKey={columnKey}
+                    />
+                  }
+                  {loading && <p>Carregando...</p>}
                 </Table.Cell>
               )}
             </Table.Row>

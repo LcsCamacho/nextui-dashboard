@@ -1,7 +1,7 @@
 import { Button, Input, Text } from "@nextui-org/react";
 import { Cliente } from "@prisma/client";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Breadcrumbs, Crumb, CrumbLink } from "../breadcrumb/breadcrumb.styled";
 import { ExportIcon } from "../icons/accounts/export-icon";
 import { HouseIcon } from "../icons/breadcrumb/house-icon";
@@ -25,9 +25,10 @@ export interface User {
 }
 
 export const Accounts = ({ clientes }: { clientes: Cliente[] }) => {
-  const [clientesState, setClientesState] = useState(clientes);
+  const [clientesState, setClientesState] = useState<Cliente[]>(clientes);
   const [clienteSelected, setClienteSelected] = useState<Cliente | null>(null);
   const [showModalDetails, setShowModalDetails] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const showDetails = (cliente: Cliente) => {
     setClienteSelected(cliente);
@@ -35,8 +36,10 @@ export const Accounts = ({ clientes }: { clientes: Cliente[] }) => {
   };
   
   const fetchClientes = async () => {
+    setLoading(true);
     const clientes = await ClientesServices.getClientes();
     setClientesState(clientes);
+    setLoading(false);
   };
 
   return (
@@ -106,9 +109,9 @@ export const Accounts = ({ clientes }: { clientes: Cliente[] }) => {
               fetchClientes();
             }}
           />
-          <Button auto iconRight={<ExportIcon />}>
+          {/* <Button auto iconRight={<ExportIcon />}>
             Exportar para Excel
-          </Button>
+          </Button> */}
         </Flex>
       </Flex>
       <DetailsCliente
