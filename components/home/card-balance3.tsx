@@ -7,7 +7,7 @@ import { VendasServices } from "../vendas/services";
 
 export const CardBalance3 = () => {
   const [valorRecebido, setValorRecebido] = React.useState(0);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
     (async () => {
       setLoading(true);
