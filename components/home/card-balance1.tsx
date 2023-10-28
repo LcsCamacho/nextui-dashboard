@@ -10,7 +10,7 @@ export const CardBalance1 = () => {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    const fetchVendas = async () => {
+    (async () => {
       const vendas = await VendasServices.getVendas();
       let total = 0;
       vendas.forEach((venda) => {
@@ -18,8 +18,8 @@ export const CardBalance1 = () => {
         total -= venda.valorPago;
       });
       setValorAReceber(total);
-    };
-    fetchVendas().finally(() => setLoading(false));
+      setLoading(false);
+    })();
   }, []);
 
   return (
@@ -45,8 +45,10 @@ export const CardBalance1 = () => {
         </Flex>
         <Flex css={{ gap: "$6", py: "$4" }} align={"center"}>
           <Text span size={"$xl"} css={{ color: "white" }} weight={"semibold"}>
-            {!loading && `R$ ${valorAReceber.toFixed(2)}`}
-            {loading && <Loading type="points-opacity" size="lg" color="white" />}
+            {!loading && `R$ ${valorAReceber},00`}
+            {loading && (
+              <Loading type="points-opacity" size="lg" color="white" />
+            )}
           </Text>
           <Text span css={{ color: "$green800" }} size={"$xs"}>
             + 2.7%

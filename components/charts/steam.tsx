@@ -7,14 +7,6 @@ const state: Props["series"] = [
     name: "Vendido",
     data: [31, 40, 28, 51, 42, 109, 100],
   },
-  {
-    name: "A receber",
-    data: [11, 32, 45, 32, 34, 52, 41],
-  },
-  {
-    name: "Recebido",
-    data: [11, 32, 45, 32, 34, 52, 41],
-  }
 ];
 
 const options: Props["options"] = {
