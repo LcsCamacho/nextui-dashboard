@@ -9,7 +9,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const {
     data,
   } = await axios.get(currentUrl+"/clientes");
-  console.log(data)
   return {
     props: {
       clientes: data,

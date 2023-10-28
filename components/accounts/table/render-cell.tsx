@@ -31,7 +31,7 @@ export const RenderCell = ({ cliente, columnKey, handleClickDetails }: Props) =>
     ),
     telefone: () => (
       // @ts-ignore
-      <StyledBadge type={String(cliente.telefone)}>{cliente.telefone}</StyledBadge>
+      <StyledBadge css={{color: "$accents7"}} type={String(cliente.telefone)}>{cliente.telefone}</StyledBadge>
     ),
     rua: () => (
       <Col>
@@ -49,7 +49,7 @@ export const RenderCell = ({ cliente, columnKey, handleClickDetails }: Props) =>
     ),
     cpf: () => (
       // @ts-ignore
-      <StyledBadge type={String(cliente.cpf)}>
+      <StyledBadge css={{color: "$accents7"}} type={String(cliente.cpf)}>
         {cliente.cpf}
       </StyledBadge>
     ),
