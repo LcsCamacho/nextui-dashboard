@@ -24,6 +24,8 @@ export const TableWrapperVendas = ({
           minWidth: "100%",
           width: "100%",
         },
+        overflowX: "auto",
+        width: "100%",
       }}
     >
       <Table
@@ -35,7 +37,6 @@ export const TableWrapperVendas = ({
           width: "100%",
           px: 0,
         }}
-        selectionMode="multiple"
       >
         <Table.Header columns={columns}>
           {(column) => (

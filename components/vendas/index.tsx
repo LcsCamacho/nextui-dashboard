@@ -81,15 +81,27 @@ const Vendas = ({ vendas }: { vendas: VendaWithCliente[] }) => {
           css={{
             gap: "$6",
             flexWrap: "wrap",
-            "@sm": { flexWrap: "nowrap" },
+            width: "100%",
+            "@smMax": {
+              fd: "column",
+              gap: "$4",
+              jc: "center",
+              ai: "center",
+            },
           }}
           align={"center"}
         >
           <Input
-            style={{ width: "100%", maxWidth: "410px" }}
+            css={{
+              width: "100%",
+              maxWidth: "410px",
+              "@smMax": {
+                maxWidth: "100%",
+              },
+            }}
             placeholder="Buscar vendas"
           />
-          <AddVenda refetch={() => fetchVendas()} />
+          <AddVenda refreshVendas={() => fetchVendas()} />
           {/* <Button>
             <ExportIcon /> Exportar para Excel
           </Button> */}

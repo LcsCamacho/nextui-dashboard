@@ -1,6 +1,7 @@
 export const columns = [
   { name: "NOME", uid: "nome" },
   { name: "VALOR", uid: "valorTotal" },
+  { name: "PRODUTO", uid: "produto"},
   { name: "ENDEREÇO", uid: "rua" },
   { name: "DATA", uid: "createdAt" },
   { name: "STATUS", uid: "pago"},

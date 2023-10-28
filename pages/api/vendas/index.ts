@@ -46,14 +46,15 @@ const services = {
     return await prisma.venda.findMany();
   },
   POST: async (req: NextApiRequest) => {
-    const { clienteId, valor } = req.body;
+    const { clienteId, valor, produto } = req.body;
     await prisma.$transaction([
       prisma.venda.create({
         data: {
           pago: false,
-          clienteId: req.body.clienteId,
+          clienteId,
           valorPago: 0,
-          valorTotal: Number(req.body.valor),
+          valorTotal: Number(valor),
+          produto,
         },
       }),
       prisma.cliente.update({

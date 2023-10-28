@@ -39,6 +39,15 @@ export const RenderCell = ({
         {venda.cliente.telefone}
       </User>
     ),
+    produto: () => (
+      <Col>
+        <Row>
+          <Text b size={14} css={{ tt: "capitalize" }}>
+            {venda.produto}
+          </Text>
+        </Row>
+      </Col>
+    ),
     rua: () => (
       <Col>
         <Row>

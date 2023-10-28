@@ -14,12 +14,13 @@ import { ClientesServices } from "../accounts/services";
 import { VendasServices } from "./services";
 import { verificaSeTemDadoNullObjeto } from "../../utils/verificaSeTemNullObjeto";
 
-export const AddVenda = ({ refetch }: { refetch: () => void }) => {
+export const AddVenda = ({ refreshVendas }: { refreshVendas: () => void }) => {
   const [visible, setVisible] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
   const [clientes, setClientes] = React.useState<Cliente[]>([]);
+  const produto = React.useRef<HTMLInputElement>(null);
   const cliente = React.useRef<HTMLSelectElement>(null);
   const valor = React.useRef<HTMLInputElement>(null);
   const handler = () => setVisible(true);
@@ -36,6 +37,7 @@ export const AddVenda = ({ refetch }: { refetch: () => void }) => {
     const data: VendaToBeCreated = {
       clienteId: cliente.current?.value,
       valor: valor.current?.value,
+      produto: produto.current?.value,
     };
     try {
       if (!verificaSeTemDadoNullObjeto(data)) return;
@@ -47,7 +49,7 @@ export const AddVenda = ({ refetch }: { refetch: () => void }) => {
       setError(true);
     } finally {
       setLoading(false);
-      refetch();
+      refreshVendas();
     }
   };
 
@@ -59,8 +61,22 @@ export const AddVenda = ({ refetch }: { refetch: () => void }) => {
   };
 
   return (
-    <div>
-      <Button onClick={handler}>Cadastrar Venda</Button>
+    <Flex css={{
+      width: "100%",
+      maxWidth: "200px",
+      ml: "auto",
+      "@smMax": {
+        maxWidth: "100%",
+      },
+    }}>
+      <Button
+        css={{
+          width: "100%",
+        }}
+        onClick={handler}
+      >
+        Inserir nova venda aqui
+      </Button>
       <Modal
         scroll
         closeButton
@@ -142,7 +158,22 @@ export const AddVenda = ({ refetch }: { refetch: () => void }) => {
                 label="Valor"
                 fullWidth
                 size="lg"
-                placeholder="Valor"
+                placeholder="99"
+              />
+            </Flex>
+            <Flex
+              css={{
+                gap: "$10",
+                flexWrap: "wrap",
+                "@lg": { flexWrap: "nowrap" },
+              }}
+            >
+              <Input
+                ref={produto}
+                label="Produto"
+                fullWidth
+                size="lg"
+                placeholder="Calça jeans, saia, moletom..."
               />
             </Flex>
           </Flex>
@@ -164,6 +195,6 @@ export const AddVenda = ({ refetch }: { refetch: () => void }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </Flex>
   );
 };
