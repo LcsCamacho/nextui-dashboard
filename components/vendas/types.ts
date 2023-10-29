@@ -1,4 +1,4 @@
-import { Venda, Cliente } from "@prisma/client";
+import { Venda, Cliente, Transacao } from "@prisma/client";
 
 export interface VendaToBeCreated {
   clienteId: string | undefined;
@@ -8,4 +8,5 @@ export interface VendaToBeCreated {
 
 export interface VendaWithCliente extends Venda { 
   cliente: Cliente;
+  transacao: Transacao[];
 }

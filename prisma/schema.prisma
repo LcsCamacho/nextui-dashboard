@@ -20,30 +20,43 @@ model User {
 }
 
 model Cliente {
-  id               String   @id @default(uuid())
+  id               String      @id @default(uuid())
   nome             String
-  email            String   @unique
+  email            String      @unique
   telefone         String
   valorMovimentado Float
   rua              String
   numero           String
   bairro           String
   cidade           String
-  cpf              String   @unique
+  cpf              String      @unique
   complemento      String?
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
   Venda            Venda[]
+  transacao        Transacao[]
 }
 
 model Venda {
-  id         String   @id @default(uuid())
+  id         String      @id @default(uuid())
   clienteId  String
   valorTotal Float
   pago       Boolean
-  produto    String @default("Produto")
+  produto    String
   valorPago  Float
-  cliente    Cliente  @relation(fields: [clienteId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  cliente    Cliente     @relation(fields: [clienteId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  transacao  Transacao[]
+}
+
+model Transacao {
+  id        String   @id @default(uuid())
+  clienteId String
+  vendaId   String
+  valor     Float
+  cliente   Cliente  @relation(fields: [clienteId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  venda     Venda    @relation(fields: [vendaId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

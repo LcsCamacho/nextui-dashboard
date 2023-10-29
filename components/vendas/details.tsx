@@ -11,15 +11,19 @@ interface Props {
 }
 
 export const DetailsVenda = ({ venda, isShow, closeHandler }: Props) => {
-  const { cliente } = venda;
+  const { cliente, transacao } = venda;
 
   const sendWhatsApp = () => {
-    const message = `Olá ${cliente.nome}, tudo bem? Aqui é da Pri Modas e estamos entrando em contato para lembrar que você tem uma dívida de R$${venda.valorTotal - venda.valorPago},00. Por favor, entre em contato conosco para que possamos negociar o pagamento. Obrigado!`;
-    const url = `https://api.whatsapp.com/send?phone=55${cliente.telefone}&text=${encodeURI(
-      message
-    )}`;
+    const message = `Olá ${
+      cliente.nome
+    }, tudo bem? Aqui é da Pri Modas e estamos entrando em contato para lembrar que você tem uma dívida de R$${
+      venda.valorTotal - venda.valorPago
+    },00. Por favor, entre em contato conosco para que possamos negociar o pagamento. Obrigado!`;
+    const url = `https://api.whatsapp.com/send?phone=55${
+      cliente.telefone
+    }&text=${encodeURI(message)}`;
     window.open(url, "_blank");
-  }
+  };
 
   return (
     <Modal
@@ -30,7 +34,7 @@ export const DetailsVenda = ({ venda, isShow, closeHandler }: Props) => {
       closeButton
       width="100%"
       css={{
-        backgroundColor: venda.pago ? "$successLight" :"$warningLight",
+        backgroundColor: venda.pago ? "$successLight" : "",
         margin: "auto",
         maxHeight: "90vh",
         maxWidth: 720,
@@ -98,7 +102,7 @@ export const DetailsVenda = ({ venda, isShow, closeHandler }: Props) => {
               <Text b size={16} css={{ tt: "capitalize", color: "$accents9" }}>
                 Total:{" "}
               </Text>
-              <Text b size={14} css={{color:"$accents7"}}>
+              <Text b size={14} css={{ color: "$accents7" }}>
                 R${venda.valorTotal},00
               </Text>
             </Col>
@@ -108,7 +112,7 @@ export const DetailsVenda = ({ venda, isShow, closeHandler }: Props) => {
               }}
             >
               <Text b size={16} css={{ tt: "capitalize", color: "$accents9" }}>
-                Pago:{" "}
+                Total pago:{" "}
               </Text>
               <StyledBadge color={"$accents7"} type={"active"}>
                 R${venda.valorPago},00
@@ -128,9 +132,11 @@ export const DetailsVenda = ({ venda, isShow, closeHandler }: Props) => {
             </Col>
           </Row>
           <Row css={{ gap: "$6" }}>
-            <Col css={{
+            <Col
+              css={{
                 width: "max-content",
-              }}>
+              }}
+            >
               <Text b size={16} css={{ tt: "capitalize", color: "$accents9" }}>
                 Data:{" "}
               </Text>
@@ -138,10 +144,12 @@ export const DetailsVenda = ({ venda, isShow, closeHandler }: Props) => {
                 {new Date(venda.createdAt).toLocaleString()}
               </Text>
             </Col>
-            <Col css={{
+            <Col
+              css={{
                 width: "max-content",
-              }}>
-            <Text b size={16} css={{ tt: "capitalize", color: "$accents9" }}>
+              }}
+            >
+              <Text b size={16} css={{ tt: "capitalize", color: "$accents9" }}>
                 Ultima vez pago:{" "}
               </Text>
               <Text b size={14} css={{ tt: "capitalize", color: "$accents7" }}>
@@ -149,13 +157,35 @@ export const DetailsVenda = ({ venda, isShow, closeHandler }: Props) => {
               </Text>
             </Col>
           </Row>
+          {transacao.length > 0 && (
+            <Row>
+              <Flex
+                css={{ fd: "column", jc: "center", ai: "start", gap: "$6" }}
+              >
+                {transacao.map((t) => {
+                  return (
+                    <Row key={t.id} align="center">
+                      <Text b size={16} css={{ color: "$accents9" }}>
+                        Pago
+                      </Text>
+                      <StyledBadge type={"active"}>{t.valor}</StyledBadge>
+                    </Row>
+                  );
+                })}
+              </Flex>
+            </Row>
+          )}
         </Flex>
       </Modal.Body>
       <Modal.Footer>
         <Button auto color="success" onClick={sendWhatsApp}>
-        <WhatsAppIcon size={30} style={{
-            marginRight: 10
-          }} />Enviar mensagem 
+          <WhatsAppIcon
+            size={30}
+            style={{
+              marginRight: 10,
+            }}
+          />
+          Enviar mensagem
         </Button>
         <Button auto color="error" onClick={closeHandler}>
           Fechar

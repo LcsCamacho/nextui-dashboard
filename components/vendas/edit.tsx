@@ -6,6 +6,7 @@ import {
   Modal,
   Row,
   Text,
+  Col,
 } from "@nextui-org/react";
 import { Venda } from "@prisma/client";
 import { useState } from "react";
@@ -22,9 +23,14 @@ interface Props {
   refreshVendas: () => void;
 }
 
-export const EditarVenda = ({ venda, isShow, closeHandler, refreshVendas }: Props) => {
+export const EditarVenda = ({
+  venda,
+  isShow,
+  closeHandler,
+  refreshVendas,
+}: Props) => {
   const [loading, setLoading] = useState(false);
-  const [valorPago, setValorPago] = useState(venda.valorPago || 0) ;
+  const [valorPago, setValorPago] = useState(venda.valorPago || 0);
   const [pago, setPago] = useState(valorPago === venda.valorTotal || false);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -38,6 +44,7 @@ export const EditarVenda = ({ venda, isShow, closeHandler, refreshVendas }: Prop
         valorPago: Number(valorPago),
         pago,
         id: venda.id,
+        clienteId: venda.clienteId,
       };
       const response = await VendasServices.updateVenda(data as Venda);
       console.log(response);
@@ -46,7 +53,7 @@ export const EditarVenda = ({ venda, isShow, closeHandler, refreshVendas }: Prop
       console.log(error);
       setError(true);
     } finally {
-      refreshVendas()
+      refreshVendas();
       setLoading(false);
       closeHandler();
       resetState();
@@ -59,7 +66,7 @@ export const EditarVenda = ({ venda, isShow, closeHandler, refreshVendas }: Prop
     setValorPago(0);
     setPago(false);
     setLoading(false);
-  }
+  };
 
   return (
     <Modal
@@ -103,7 +110,7 @@ export const EditarVenda = ({ venda, isShow, closeHandler, refreshVendas }: Prop
                 setPago(true);
                 setValorPago(value);
                 return;
-              };
+              }
               if (value >= valorRestante) {
                 setValorPago(valorRestante);
                 setPago(true);
@@ -123,6 +130,7 @@ export const EditarVenda = ({ venda, isShow, closeHandler, refreshVendas }: Prop
               setValorPago(valorRestante);
             }}
           />
+          
         </Flex>
       </Modal.Body>
       <Modal.Footer>

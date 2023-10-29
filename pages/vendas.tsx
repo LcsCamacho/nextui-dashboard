@@ -9,7 +9,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { data:vendas } = await axios.get(
     `${currentUrl}/vendas?withClientes=1${cliId ? `&cliId=${cliId}` : ""}${
       vendaPorCliente ? `&vendaPorCliente=1` : ""
-    }`
+    }&withTransacoes=1`
   );
   return {
     props: {

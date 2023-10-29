@@ -11,25 +11,14 @@ enum MethodsAlloweds {
   PUT = "PUT",
 }
 
-const getVendasByIdCliente = async (id: string) => {
+const getVendasByIdCliente = async (id: string, transacao?:boolean) => {
   return await prisma.venda.findMany({
     where: {
       clienteId: id,
     },
     include: {
       cliente: true,
-    },
-  });
-};
-
-const getVendasWithClientes = async (limit?: number) => {
-  return await prisma.venda.findMany({
-    orderBy: {
-      updatedAt: "desc",
-    },
-    take: limit || undefined,
-    include: {
-      cliente: true,
+      transacao: transacao, 
     },
   });
 };
@@ -40,10 +29,15 @@ const services = {
     if (req.query.cliId)
       return await getVendasByIdCliente(String(req.query.cliId));
 
-    if (req.query.withClientes)
-      return await getVendasWithClientes(Number(req.query.limit));
-
-    return await prisma.venda.findMany();
+    return await prisma.venda.findMany({
+      orderBy: {
+        updatedAt: "desc",
+      },
+      include: {
+        cliente: Boolean(req.query.withClientes),
+        transacao: Boolean(req.query.withTransacoes),
+      }
+    });
   },
   POST: async (req: NextApiRequest) => {
     const { clienteId, valor, produto } = req.body;
@@ -81,19 +75,28 @@ const services = {
   },
   PUT: async (req: NextApiRequest) => {
     const { id } = req.query;
-    const { valorPago, pago, valorTotal }: Venda = req.body;
-    await prisma.venda.update({
-      where: {
-        id: String(id),
-      },
-      data: {
-        valorPago: {
-          increment: Number(valorPago),
+    const { valorPago, pago, valorTotal, clienteId }: Venda = req.body;
+    await prisma.$transaction([
+      prisma.venda.update({
+        where: {
+          id: String(id),
         },
-        pago: Boolean(pago),
-        valorTotal: Number(valorTotal),
-      },
-    });
+        data: {
+          valorPago: {
+            increment: Number(valorPago),
+          },
+          pago: Boolean(pago),
+          valorTotal: Number(valorTotal),
+        },
+      }),
+      prisma.transacao.create({
+        data: {
+          valor: Number(valorPago),
+          vendaId: String(id),
+          clienteId,
+        }
+      }),
+    ]);
     return { success: true };
   },
 };
