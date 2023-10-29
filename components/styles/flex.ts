@@ -6,6 +6,11 @@ export const Flex = styled('div', {
    flexDirection: 'row',
 
    variants: {
+      width: {
+         full: {
+            width: '100%',
+         }
+      },
       direction: {
          column: {
             flexDirection: 'column',

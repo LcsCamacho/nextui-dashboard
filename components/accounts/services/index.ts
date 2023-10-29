@@ -1,5 +1,5 @@
 
-import { currentUrl } from "../../constants/urlFetch";
+import { currentUrl } from "../../../constants/urlFetch";
 import { UseAxios } from "../../hooks/useAxios";
 import { ClienteToBeCreated } from "../types";
 

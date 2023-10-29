@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { currentUrl } from "../constants/urlFetch";
+import { currentUrl } from "../../constants/urlFetch";
 
 export const UseAxios = (url?: string, options?: AxiosRequestConfig) => {
   const defaultOptions = {

@@ -76,8 +76,8 @@ const services = {
   PUT: async (req: NextApiRequest) => {
     const { id } = req.query;
     const { valorPago, pago, valorTotal, clienteId }: Venda = req.body;
-    await prisma.$transaction([
-      prisma.venda.update({
+    await prisma.$transaction(async (p) => {
+      const venda = await p.venda.update({
         where: {
           id: String(id),
         },
@@ -88,15 +88,16 @@ const services = {
           pago: Boolean(pago),
           valorTotal: Number(valorTotal),
         },
-      }),
-      prisma.transacao.create({
+      })
+      await p.transacao.create({
         data: {
           valor: Number(valorPago),
           vendaId: String(id),
           clienteId,
+          valorRestante: Number(venda.valorTotal) - Number(venda.valorPago),
         }
-      }),
-    ]);
+      })
+  });
     return { success: true };
   },
 };

@@ -1,26 +1,15 @@
-import React, {useState} from 'react';
-import {Box} from '../styles/box';
-import {Sidebar} from './sidebar.styles';
-import {Avatar, Tooltip} from '@nextui-org/react';
-import {Flex} from '../styles/flex';
-import {CompaniesDropdown} from './companies-dropdown';
-import {HomeIcon} from '../icons/sidebar/home-icon';
-import {PaymentsIcon} from '../icons/sidebar/payments-icon';
-import {BalanceIcon} from '../icons/sidebar/balance-icon';
-import {AccountsIcon} from '../icons/sidebar/accounts-icon';
-import {CustomersIcon} from '../icons/sidebar/customers-icon';
-import {ProductsIcon} from '../icons/sidebar/products-icon';
-import {ReportsIcon} from '../icons/sidebar/reports-icon';
-import {DevIcon} from '../icons/sidebar/dev-icon';
-import {ViewIcon} from '../icons/sidebar/view-icon';
-import {SettingsIcon} from '../icons/sidebar/settings-icon';
-import {CollapseItems} from './collapse-items';
-import {SidebarItem} from './sidebar-item';
-import {SidebarMenu} from './sidebar-menu';
-import {FilterIcon} from '../icons/sidebar/filter-icon';
-import {useSidebarContext} from '../layout/layout-context';
-import {ChangeLogIcon} from '../icons/sidebar/changelog-icon';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
+import { AccountsIcon } from '../icons/sidebar/accounts-icon';
+import { HomeIcon } from '../icons/sidebar/home-icon';
+import { ReportsIcon } from '../icons/sidebar/reports-icon';
+import { useSidebarContext } from '../layout/layout-context';
+import { Box } from '../styles/box';
+import { Flex } from '../styles/flex';
+import { CompaniesDropdown } from './companies-dropdown';
+import { SidebarItem } from './sidebar-item';
+import { SidebarMenu } from './sidebar-menu';
+import { Sidebar } from './sidebar.styles';
+import { routes } from '../../constants/routes';
 
 export const SidebarWrapper = () => {
    const router = useRouter();
@@ -52,20 +41,20 @@ export const SidebarWrapper = () => {
                      title="Home"
                      icon={<HomeIcon />}
                      isActive={router.pathname === '/'}
-                     href="/"
+                     href={routes.home}
                   />
                   <SidebarMenu title="Menu Principal">
                      <SidebarItem
                         isActive={router.pathname === '/clientes'}
                         title="Clientes"
                         icon={<AccountsIcon />}
-                        href="clientes"
+                        href={routes.clientes}
                      />
                      <SidebarItem
                         isActive={router.pathname === '/vendas'}
                         title="Vendas"
                         icon={<ReportsIcon />}
-                        href="vendas"
+                        href={routes.vendas}
                      />
                   </SidebarMenu>
 

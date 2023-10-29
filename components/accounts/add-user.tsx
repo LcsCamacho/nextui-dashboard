@@ -43,7 +43,6 @@ export const AddUser = ({ refetch }: { refetch: () => void }) => {
     try {
       if (!verificaSeTemDadoNullObjeto(clienteToBeCreated)) return alert("Preencha todos os campos");
       const response = await ClientesServices.createCliente(clienteToBeCreated);
-      console.log(response);
       setSuccess(true);
     } catch (error) {
       setError(true);

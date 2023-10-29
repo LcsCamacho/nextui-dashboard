@@ -1,6 +1,6 @@
 import axios from "axios";
 import { GetServerSideProps, NextPage } from "next";
-import { currentUrl } from "../components/constants/urlFetch";
+import { currentUrl } from "../constants/urlFetch";
 import Vendas from "../components/vendas";
 import { VendaWithCliente } from "../components/vendas/types";
 

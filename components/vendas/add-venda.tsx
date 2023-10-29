@@ -42,7 +42,6 @@ export const AddVenda = ({ refreshVendas }: { refreshVendas: () => void }) => {
     try {
       if (!verificaSeTemDadoNullObjeto(data)) return;
       const response = await VendasServices.createVenda(data);
-      console.log(response);
       setSuccess(true);
     } catch (error) {
       console.log(error);

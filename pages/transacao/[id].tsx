@@ -1,11 +1,12 @@
 import { GetServerSideProps, NextPage } from "next";
-import { currentUrl } from "../../components/constants/urlFetch";
+import { currentUrl } from "../../constants/urlFetch";
 import axios from "axios";
-import { Transacao } from "@prisma/client";
+import { Comprovante } from "../../components/transacoes/comprovante";
+import { TransacaoWithVendaAndCliente } from "../../components/transacoes/types";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { data: transacao } = await axios.get(
-    `${currentUrl}/transacoes/${ctx.params?.id}`
+  const { data: transacao } = await axios.get<TransacaoWithVendaAndCliente>(
+    `${currentUrl}/transacoes?id=${ctx.params?.id}&withVenda=1&withCliente=1`
   );
   return {
     props: {
@@ -15,9 +16,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const TransacaoPorId: NextPage<{
-  transacao: Transacao;
+  transacao: TransacaoWithVendaAndCliente;
 }> = ({ transacao }) => {
-  return <>{transacao.valor}</>;
+  return <Comprovante transacao={transacao} />;
 };
 
 export default TransacaoPorId;

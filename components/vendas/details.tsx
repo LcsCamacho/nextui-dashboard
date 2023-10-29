@@ -3,6 +3,10 @@ import { Flex } from "../styles/flex";
 import { VendaWithCliente } from "./types";
 import { StyledBadge } from "./table/table.styled";
 import { FaWhatsapp as WhatsAppIcon } from "react-icons/fa";
+import { useState } from "react";
+import Link from "next/link";
+import { IoIosArrowBack, IoIosArrowDown } from "react-icons/io";
+import { CardPagamento } from "./components/CardPagamento";
 
 interface Props {
   venda: VendaWithCliente;
@@ -12,6 +16,7 @@ interface Props {
 
 export const DetailsVenda = ({ venda, isShow, closeHandler }: Props) => {
   const { cliente, transacao } = venda;
+  const [showPagamentos, setShowPagamentos] = useState(true);
 
   const sendWhatsApp = () => {
     const message = `Olá ${
@@ -158,22 +163,42 @@ export const DetailsVenda = ({ venda, isShow, closeHandler }: Props) => {
             </Col>
           </Row>
           {transacao.length > 0 && (
-            <Row>
-              <Flex
-                css={{ fd: "column", jc: "center", ai: "start", gap: "$6" }}
+            <Col>
+              <Text
+                onClick={() => setShowPagamentos((st) => !st)}
+                b
+                size={16}
+                css={{
+                  display: "flex",
+                  jc: "space-between",
+                  tt: "capitalize",
+                  color: "$accents9",
+                  width: "100%",
+                  mt: "$12",
+                  "&:hover": {
+                    cursor: "pointer",
+                    backgroundColor: "$accents2",
+                    borderRadius: 5,
+                  },
+                }}
               >
-                {transacao.map((t) => {
-                  return (
-                    <Row key={t.id} align="center">
-                      <Text b size={16} css={{ color: "$accents9" }}>
-                        Pago
-                      </Text>
-                      <StyledBadge type={"active"}>{t.valor}</StyledBadge>
-                    </Row>
-                  );
-                })}
-              </Flex>
-            </Row>
+                {showPagamentos ? "Ocultar pagamentos" : "Mostrar pagamentos"}
+                <Text size={14} css={{ color: "$accents7" }}>
+                  {showPagamentos ? <IoIosArrowDown /> : <IoIosArrowBack />}
+                </Text>
+              </Text>
+              {showPagamentos && (
+                <Flex
+                  css={{  jc: "start", ai: "center", gap: "$6" }}
+                >
+                  {transacao.map((t) => {
+                    return (
+                      <CardPagamento transacao={t} key={t.id} />
+                    );
+                  })}
+                </Flex>
+              )}
+            </Col>
           )}
         </Flex>
       </Modal.Body>

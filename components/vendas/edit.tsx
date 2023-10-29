@@ -47,7 +47,6 @@ export const EditarVenda = ({
         clienteId: venda.clienteId,
       };
       const response = await VendasServices.updateVenda(data as Venda);
-      console.log(response);
       setSuccess(true);
     } catch (error) {
       console.log(error);

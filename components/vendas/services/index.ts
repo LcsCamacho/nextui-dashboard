@@ -1,5 +1,5 @@
 import { Venda } from "@prisma/client";
-import { currentUrl } from "../../constants/urlFetch";
+import { currentUrl } from "../../../constants/urlFetch";
 import { UseAxios } from "../../hooks/useAxios";
 import { VendaToBeCreated, VendaWithCliente } from "../types";
 
