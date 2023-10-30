@@ -31,11 +31,11 @@ const services = {
 
     return await prisma.venda.findMany({
       orderBy: {
-        updatedAt: "desc",
+        createdAt: "desc",
       },
       include: {
-        cliente: Boolean(req.query.withClientes),
-        transacao: Boolean(req.query.withTransacoes),
+        cliente: !!req.query.withClientes && req.query.withClientes === "1",
+        transacao: !!req.query.withTransacoes && req.query.withTransacoes === "1",
       }
     });
   },

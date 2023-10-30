@@ -34,7 +34,10 @@ const Vendas = ({ vendas }: { vendas: VendaWithCliente[] }) => {
 
   const fetchVendas = async () => {
     setLoading(true);
-    const vendas = await VendasServices.getVendasWithClientes();
+    const vendas = await VendasServices.getVendasWithIncludes({
+      includeCliente: true,
+      includeTransactions: true,
+    });
     setVendas(vendas);
     setLoading(false);
   };

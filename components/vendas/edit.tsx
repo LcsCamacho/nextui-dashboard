@@ -7,9 +7,10 @@ import {
   Row,
   Text,
   Col,
+  FormElement,
 } from "@nextui-org/react";
 import { Venda } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { Flex } from "../styles/flex";
 import { VendasServices } from "./services";
@@ -30,7 +31,7 @@ export const EditarVenda = ({
   refreshVendas,
 }: Props) => {
   const [loading, setLoading] = useState(false);
-  const [valorPago, setValorPago] = useState(venda.valorPago);
+  const [valorPago, setValorPago] = useState(venda.valorTotal - venda.valorPago);
   const [pago, setPago] = useState(valorPago === venda.valorTotal);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -46,7 +47,7 @@ export const EditarVenda = ({
         id: venda.id,
         clienteId: venda.clienteId,
       };
-      const response = await VendasServices.updateVenda(data as Venda);
+      await VendasServices.updateVenda(data as Venda);
       setSuccess(true);
     } catch (error) {
       console.log(error);
@@ -59,6 +60,22 @@ export const EditarVenda = ({
     }
   };
 
+  const handleChangeValorPago = (e:ChangeEvent<FormElement>) => {
+    const value = Number(e.target.value.replace(/\D/g, ""));
+    if (value === valorRestante) {
+      setPago(true);
+      setValorPago(valorRestante);
+      return;
+    }
+    if (value >= valorRestante) {
+      setValorPago(valorRestante);
+      setPago(true);
+      return;
+    }
+    Number(value) === Number(valorRestante) && setPago(true);
+    setValorPago(value);
+  }
+
   const resetState = () => {
     setSuccess(false);
     setError(false);
@@ -66,10 +83,6 @@ export const EditarVenda = ({
     setPago(false);
     setLoading(false);
   };
-
-  useEffect(() => {
-    setPago(venda.valorPago === valorRestante);
-  }, [valorPago, valorRestante, venda.valorPago]);
 
   return (
     <Modal
@@ -107,21 +120,7 @@ export const EditarVenda = ({
             value={valorPago}
             max={valorRestante}
             disabled={pago}
-            onChange={(e) => {
-              const value = Number(e.target.value.replace(/\D/g, ""));
-              if (value === valorRestante) {
-                setPago(true);
-                setValorPago(value);
-                return;
-              }
-              if (value >= valorRestante) {
-                setValorPago(valorRestante);
-                setPago(true);
-                return;
-              }
-              Number(value) === Number(valorRestante) && setPago(true);
-              setValorPago(value);
-            }}
+            onChange={handleChangeValorPago}
             fullWidth
           />
           <Checkbox

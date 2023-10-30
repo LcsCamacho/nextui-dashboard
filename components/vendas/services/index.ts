@@ -10,6 +10,14 @@ export const VendasServices = {
       const { data } = await api.get<VendaWithCliente[]>("/vendas?withClientes=1");
       return data;
     },
+    getVendasWithIncludes: async ({includeCliente, includeTransactions}: {
+      includeCliente?: boolean;
+      includeTransactions?: boolean;
+    }) => {
+      const { api } = UseAxios(currentUrl);
+      const { data } = await api.get<VendaWithCliente[]>(`/vendas?withClientes=${includeCliente ? 1 : 0}&withTransacoes=${includeTransactions ? 1 : 0}`);
+      return data;
+    },
     getVendasWithClientesAndLimit: async (limit: number) => {
       const { api } = UseAxios(currentUrl);
       const { data } = await api.get<VendaWithCliente[]>(`/vendas?withClientes=1&limit=${limit}`);
