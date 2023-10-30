@@ -40,13 +40,25 @@ export const Comprovante = ({
 
   return (
     <ComprovanteContainer>
-      <Flex justify="center" align="center" direction="column">
+      <Flex
+        justify="center"
+        align="center"
+        direction="column"
+        css={{
+          gap: "$6",
+          overflow: "hidden",
+          overflowY: "auto",
+          pb: "$10",
+        }}
+      >
         <Text h1>Comprovante</Text>
         <AiOutlineCheckCircle
           color={"var(--nextui-colors-green700)"}
           size={"150"}
         />
-        <Text h3>Pagamento feito com sucesso!</Text>
+        <Text css={{ textAlign: "center" }} h3>
+          Pagamento feito com sucesso!
+        </Text>
         <Col
           css={{
             jc: "center",
@@ -161,6 +173,10 @@ export const Comprovante = ({
               ai: "center",
               jc: "center",
               gap: "$2",
+              "@smMax": {
+                ai: "flex-start",
+                jc: "flex-start",
+              },
             }}
           >
             <Text b size={18} css={{ color: "$accents9" }}>
@@ -172,7 +188,7 @@ export const Comprovante = ({
             </Text>
           </Row>
         </Col>
-        <Row css={{ gap: "$6", mt: "$12", jc: "center" }}>
+        <Row css={{ gap: "$6", mt: "$12", jc: "center", flexWrap: "wrap" }}>
           {/* <Button onClick={handleClickShare}>
             <Text b size={18} css={{ color: "$white", mr: "$5" }}>
               Compartilhar
@@ -182,25 +198,53 @@ export const Comprovante = ({
           <Button
             css={{
               backgroundColor: "$error",
+              "@xsMax": {
+                width: "100%",
+              },
             }}
             onClick={handleClickMakePdf}
           >
-            <Text b size={18} css={{ color: "$white", mr: "$5" }}>
+            <Text
+              b
+              size={18}
+              css={{
+                color: "$white",
+                mr: "$5",
+                "@xsMax": {
+                  width: "100%",
+                },
+              }}
+            >
               Gerar PDF
             </Text>{" "}
             <FaFilePdf />
           </Button>
-          {!!blobPdf && <Button
-            css={{
-              backgroundColor: "$primaryBorder",
-            }}
-            onClick={handleClickShare}
-          > 
-            <Text b size={18} css={{ color: "$white", mr: "$5" }}>
-              Compartilhar PDF gerado
-            </Text>{" "}
-            <FaFilePdf />
-          </Button>}
+          {!!blobPdf && (
+            <Button
+              css={{
+                backgroundColor: "$primaryBorder",
+                "@xsMax": {
+                  width: "100%",
+                },
+              }}
+              onClick={handleClickShare}
+            >
+              <Text
+                b
+                size={18}
+                css={{
+                  color: "$white",
+                  mr: "$5",
+                  "@xsMax": {
+                    width: "100%",
+                  },
+                }}
+              >
+                Compartilhar PDF gerado
+              </Text>{" "}
+              <FaShare />
+            </Button>
+          )}
         </Row>
       </Flex>
     </ComprovanteContainer>
