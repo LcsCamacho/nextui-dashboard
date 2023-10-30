@@ -5,19 +5,26 @@ import { AiOutlineCheckCircle } from "react-icons/ai";
 import { ComprovanteContainer } from "./comprovante.styled";
 import { FaShare, FaFilePdf } from "react-icons/fa";
 import { makeComprovantePdf } from "../../features/pdf/comprovantePdf";
+import { useState, useEffect } from "react";
 
 export const Comprovante = ({
   transacao,
 }: {
   transacao: TransacaoWithVendaAndCliente;
 }) => {
+  const [blobPdf, setBlobPdf] = useState<Blob | null>(null);
+
   const handleClickShare = () => {
     if (navigator.share) {
       navigator
         .share({
           title: "Comprovante de pagamento",
-          text: `Olá ${transacao.cliente.nome}, tudo bem? Aqui é da Pri Modas e estamos entrando em contato para confirmar o pagamento de R$${transacao.valor},00. Obrigado!`,
-          url: `${window.location.href}`,
+          text: "Comprovante de pagamento",
+          files: [
+            new File([blobPdf!], "pagamento.pdf", {
+              type: "application/pdf",
+            }),
+          ],
         })
         .then(() => console.log("Successful share"))
         .catch((error) => console.log("Error sharing", error));
@@ -26,9 +33,10 @@ export const Comprovante = ({
     }
   };
 
-  const handleClickSharePdf = () => {
-    makeComprovantePdf(transacao, true);
-  }
+  const handleClickMakePdf = async () => {
+    const { pdf } = await makeComprovantePdf(transacao, true);
+    pdf.getBlob(setBlobPdf);
+  };
 
   return (
     <ComprovanteContainer>
@@ -52,8 +60,8 @@ export const Comprovante = ({
           <Row
             css={{
               ai: "center",
-            jc: "center",
-            gap: "$2",
+              jc: "center",
+              gap: "$2",
             }}
           >
             <Text b size={18} css={{ color: "$accents9" }}>
@@ -164,21 +172,35 @@ export const Comprovante = ({
             </Text>
           </Row>
         </Col>
-        <Row css={{ gap: "$6", mt: "$12",  jc: "center", }}>
+        <Row css={{ gap: "$6", mt: "$12", jc: "center" }}>
           {/* <Button onClick={handleClickShare}>
             <Text b size={18} css={{ color: "$white", mr: "$5" }}>
               Compartilhar
             </Text>{" "}
             <FaShare />
           </Button> */}
-          <Button css={{
-            backgroundColor: "$error",
-          }} onClick={handleClickSharePdf}>
+          <Button
+            css={{
+              backgroundColor: "$error",
+            }}
+            onClick={handleClickMakePdf}
+          >
             <Text b size={18} css={{ color: "$white", mr: "$5" }}>
               Gerar PDF
             </Text>{" "}
             <FaFilePdf />
           </Button>
+          {!!blobPdf && <Button
+            css={{
+              backgroundColor: "$primaryBorder",
+            }}
+            onClick={handleClickShare}
+          > 
+            <Text b size={18} css={{ color: "$white", mr: "$5" }}>
+              Compartilhar PDF gerado
+            </Text>{" "}
+            <FaFilePdf />
+          </Button>}
         </Row>
       </Flex>
     </ComprovanteContainer>

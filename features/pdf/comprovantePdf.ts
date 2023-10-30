@@ -11,6 +11,7 @@ import {
   ImageDefinition,
   StyleDictionary,
 } from "pdfmake/interfaces";
+import { blob } from "stream/consumers";
 
 export const makeComprovantePdf = async (
   transacao: TransacaoWithVendaAndCliente,
@@ -39,13 +40,13 @@ export const makeComprovantePdf = async (
     },
     columnLabelValue: {
       alignment: "center",
-      margin: [200 ,20, 0, 0],
+      margin: [200, 20, 0, 0],
       columnGap: 0,
     },
     checkInImage: {
       alignment: "center",
       margin: [20, 20, 20, 20],
-    }
+    },
   };
 
   const rowWithTwoColumns = (label: string, value: string) => {
@@ -72,7 +73,6 @@ export const makeComprovantePdf = async (
   );
   const produtoRow = rowWithTwoColumns("Produto:", produto);
 
-
   const content: Content = [
     {
       text: "Comprovante de pagamento",
@@ -83,7 +83,7 @@ export const makeComprovantePdf = async (
       width: 100,
       height: 100,
       style: "checkInImage",
-      margin: [0, 15, 0, 0], 
+      margin: [0, 15, 0, 0],
     },
     {
       stack: [
@@ -117,8 +117,7 @@ export const makeComprovantePdf = async (
         },
       ],
       alignment: "center",
-
-    }
+    },
   ];
 
   const fileName = "comprovante.pdf";
@@ -129,5 +128,6 @@ export const makeComprovantePdf = async (
     },
   };
 
-  await makePdf(content, fileName, images, styles, open);
+  const pdf = await makePdf(content, fileName, images, styles, open);
+  return { pdf };
 };

@@ -47,4 +47,5 @@ export const makePdf = async (
   const pdf = pdfMake.createPdf(docDefinition);
 
   if (open) pdf.open();
+  return pdf
 };
