@@ -51,8 +51,9 @@ export const Comprovante = ({
         >
           <Row
             css={{
-              alignItems: "center",
-              gap: "$2",
+              ai: "center",
+            jc: "center",
+            gap: "$2",
             }}
           >
             <Text b size={18} css={{ color: "$accents9" }}>
@@ -64,7 +65,8 @@ export const Comprovante = ({
           </Row>
           <Row
             css={{
-              alignItems: "center",
+              ai: "center",
+              jc: "center",
               gap: "$2",
             }}
           >
@@ -77,7 +79,8 @@ export const Comprovante = ({
           </Row>
           <Row
             css={{
-              alignItems: "center",
+              ai: "center",
+              jc: "center",
               gap: "$2",
             }}
           >
@@ -90,7 +93,8 @@ export const Comprovante = ({
           </Row>
           <Row
             css={{
-              alignItems: "center",
+              ai: "center",
+              jc: "center",
               gap: "$2",
             }}
           >
@@ -103,7 +107,8 @@ export const Comprovante = ({
           </Row>
           <Row
             css={{
-              alignItems: "center",
+              ai: "center",
+              jc: "center",
               gap: "$2",
             }}
           >
@@ -117,7 +122,8 @@ export const Comprovante = ({
 
           <Row
             css={{
-              alignItems: "center",
+              ai: "center",
+              jc: "center",
               gap: "$2",
             }}
           >
@@ -130,7 +136,8 @@ export const Comprovante = ({
           </Row>
           <Row
             css={{
-              alignItems: "center",
+              ai: "center",
+              jc: "center",
               gap: "$2",
             }}
           >
@@ -143,7 +150,8 @@ export const Comprovante = ({
           </Row>
           <Row
             css={{
-              alignItems: "center",
+              ai: "center",
+              jc: "center",
               gap: "$2",
             }}
           >
@@ -156,7 +164,7 @@ export const Comprovante = ({
             </Text>
           </Row>
         </Col>
-        <Row css={{ gap: "$6", mt: "$12" }}>
+        <Row css={{ gap: "$6", mt: "$12",  jc: "center", }}>
           {/* <Button onClick={handleClickShare}>
             <Text b size={18} css={{ color: "$white", mr: "$5" }}>
               Compartilhar
