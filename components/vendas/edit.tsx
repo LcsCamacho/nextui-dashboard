@@ -9,7 +9,7 @@ import {
   Col,
 } from "@nextui-org/react";
 import { Venda } from "@prisma/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { Flex } from "../styles/flex";
 import { VendasServices } from "./services";
@@ -30,11 +30,11 @@ export const EditarVenda = ({
   refreshVendas,
 }: Props) => {
   const [loading, setLoading] = useState(false);
-  const [valorPago, setValorPago] = useState(venda.valorPago || 0);
-  const [pago, setPago] = useState(valorPago === venda.valorTotal || false);
+  const [valorPago, setValorPago] = useState(venda.valorPago);
+  const [pago, setPago] = useState(valorPago === venda.valorTotal);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const valorRestante = venda.valorTotal - venda.valorPago;
+  const [valorRestante, setValorRestante] = useState(venda.valorTotal - venda.valorPago);
 
   const saveChanges = async () => {
     setLoading(true);
@@ -66,6 +66,10 @@ export const EditarVenda = ({
     setPago(false);
     setLoading(false);
   };
+
+  useEffect(() => {
+    setPago(venda.valorPago === valorRestante);
+  }, [valorPago, valorRestante, venda.valorPago]);
 
   return (
     <Modal

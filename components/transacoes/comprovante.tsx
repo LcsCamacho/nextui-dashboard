@@ -156,13 +156,13 @@ export const Comprovante = ({
             </Text>
           </Row>
         </Col>
-        <Row css={{ gap: "$6", mt: "$6" }}>
-          <Button onClick={handleClickShare}>
+        <Row css={{ gap: "$6", mt: "$12" }}>
+          {/* <Button onClick={handleClickShare}>
             <Text b size={18} css={{ color: "$white", mr: "$5" }}>
               Compartilhar
             </Text>{" "}
             <FaShare />
-          </Button>
+          </Button> */}
           <Button css={{
             backgroundColor: "$error",
           }} onClick={handleClickSharePdf}>
