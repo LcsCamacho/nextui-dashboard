@@ -34,7 +34,7 @@ export const Comprovante = ({
   };
 
   const handleClickMakePdf = async () => {
-    const { pdf } = await makeComprovantePdf(transacao, true);
+    const { pdf } = await makeComprovantePdf(transacao, false);
     pdf.getBlob(setBlobPdf);
   };
 
