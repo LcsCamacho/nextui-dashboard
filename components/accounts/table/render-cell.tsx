@@ -18,6 +18,14 @@ interface Props {
 
 export const RenderCell = ({ cliente, columnKey, handleClickDetails }: Props) => {
   const cellValue = cliente[columnKey as keyof ClienteWithActions];
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    window.addEventListener("resize", () => {
+      setIsMobile(window.innerWidth <= 768);
+    });
+  }, []);
+
   const Cells = {
     nome: () => (
       <User
@@ -26,12 +34,8 @@ export const RenderCell = ({ cliente, columnKey, handleClickDetails }: Props) =>
         name={String(cellValue)}
         css={{ p: 0 }}
       >
-        {cliente.email}
+        {cliente.telefone}
       </User>
-    ),
-    telefone: () => (
-      // @ts-ignore
-      <StyledBadge css={{color: "$accents7"}} type={"info"}>{cliente.telefone}</StyledBadge>
     ),
     rua: () => (
       <Col>
@@ -64,14 +68,14 @@ export const RenderCell = ({ cliente, columnKey, handleClickDetails }: Props) =>
             <IconButton onClick={() => {
               if (handleClickDetails) handleClickDetails(cliente)
             }}>
-              <EyeIcon size={20} fill="#979797" />
+              <EyeIcon size={isMobile ? 30 : 20} fill="#979797" />
             </IconButton>
           </Tooltip>
         </Col>
-        <Col css={{ d: "flex" }}>
+        {/* <Col css={{ d: "flex" }}>
           <Tooltip content="Edit user">
             <IconButton onClick={() => console.log("Edit user", cliente.id)}>
-              <EditIcon size={20} fill="#979797" />
+              <EditIcon size={isMobile ? 30 : 20} fill="#979797" />
             </IconButton>
           </Tooltip>
         </Col>
@@ -82,10 +86,10 @@ export const RenderCell = ({ cliente, columnKey, handleClickDetails }: Props) =>
             onClick={() => console.log("Delete user", cliente.id)}
           >
             <IconButton>
-              <DeleteIcon size={20} fill="#FF0080" />
+              <DeleteIcon size={isMobile ? 30 : 20} fill="#FF0080" />
             </IconButton>
           </Tooltip>
-        </Col>
+        </Col> */}
       </Row>
     ),
   };

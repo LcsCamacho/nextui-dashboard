@@ -26,8 +26,13 @@ export const RenderCell = ({
   handleClickDetails,
   handleClickEdit,
 }: Props) => {
-  if (!venda) return <></>;
+  const [isMobile, setIsMobile] = React.useState(false);
 
+  React.useEffect(() => {
+    window.addEventListener("resize", () => {
+      setIsMobile(window.innerWidth <= 768);
+    });
+  }, []);
   const Cells = {
     nome: () => (
       <User
@@ -102,7 +107,7 @@ export const RenderCell = ({
                 if (handleClickDetails) handleClickDetails(venda);
               }}
             >
-              <EyeIcon size={20} fill="#979797" />
+              <EyeIcon size={isMobile ? 30 : 20} fill="#979797" />
             </IconButton>
           </Tooltip>
         </Col>
@@ -111,11 +116,11 @@ export const RenderCell = ({
             <IconButton onClick={() => {
               if (handleClickEdit) handleClickEdit(venda);
             }}>
-              <EditIcon size={20} fill="#979797" />
+              <EditIcon size={isMobile ? 30 : 20} fill="#979797" />
             </IconButton>
           </Tooltip>
         </Col>
-        <Col css={{ d: "flex" }}>
+        {/* <Col css={{ d: "flex" }}>
           <Tooltip
             content="Deletar venda"
             color="error"
@@ -125,10 +130,10 @@ export const RenderCell = ({
             }}
           >
             <IconButton>
-              <DeleteIcon size={20} fill="#FF0080" />
+              <DeleteIcon size={isMobile ? 30 : 20} fill="#FF0080" />
             </IconButton>
           </Tooltip>
-        </Col>
+        </Col> */}
       </Row>
     ),
   };

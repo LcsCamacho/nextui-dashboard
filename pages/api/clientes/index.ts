@@ -2,10 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../prisma/connect";
 import { users } from "../../../components/accounts/table/data";
 import { Cliente, Prisma } from "@prisma/client";
-interface ClienteDTO extends Omit<Cliente, "nome"> {
-  primeiroNome: string;
-  segundoNome: string;
-}
+interface ClienteDTO extends Cliente {}
 
 const methodsAllowed = ["GET", "POST"];
 
@@ -19,27 +16,24 @@ const services = {
     return await prisma.cliente.findMany();
   },
   POST: async ({
-    primeiroNome,
-    segundoNome,
+    nome,    
     valorMovimentado = 0,
     cidade = "Amparo",
     bairro,
     rua,
     numero,
     complemento,
-    email,
     telefone,
     cpf
   }: ClienteDTO) => {
     const data = {
-      nome: `${primeiroNome} ${segundoNome}`,
+      nome,
       valorMovimentado,
       cidade,
       bairro: bairro,
       rua: rua,
       numero: numero,
       complemento: complemento,
-      email,
       telefone,
       cpf
     };

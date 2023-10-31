@@ -17,9 +17,7 @@ export const AddUser = ({ refetch }: { refetch: () => void }) => {
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
-  const primeiroNome = React.useRef<HTMLInputElement>(null);
-  const segundoNome = React.useRef<HTMLInputElement>(null);
-  const email = React.useRef<HTMLInputElement>(null);
+  const nome = React.useRef<HTMLInputElement>(null);
   const telefone = React.useRef<HTMLInputElement>(null);
   const rua = React.useRef<HTMLInputElement>(null);
   const bairro = React.useRef<HTMLInputElement>(null);
@@ -31,9 +29,7 @@ export const AddUser = ({ refetch }: { refetch: () => void }) => {
     if(success) return
     setLoading(true);
     const clienteToBeCreated: ClienteToBeCreated = {
-      primeiroNome: primeiroNome.current?.value,
-      segundoNome: segundoNome.current?.value,
-      email: email.current?.value,
+      nome: nome.current?.value,
       telefone: telefone.current?.value,
       rua: rua.current?.value,
       bairro: bairro.current?.value,
@@ -106,23 +102,15 @@ export const AddUser = ({ refetch }: { refetch: () => void }) => {
               }}
             >
               <Input
-                ref={primeiroNome}
-                label="Primeiro nome"
+                ref={nome}
+                label="Nome"
                 bordered
                 clearable
                 fullWidth
                 size="lg"
-                placeholder="Primeiro nome"
+                placeholder="Carla Dias"
               />
-              <Input
-                ref={segundoNome}
-                label="Segundo nome"
-                clearable
-                bordered
-                fullWidth
-                size="lg"
-                placeholder="Segundo nome"
-              />
+              
             </Flex>
 
             <Flex
@@ -133,15 +121,6 @@ export const AddUser = ({ refetch }: { refetch: () => void }) => {
                 "@smMax": { flexWrap: "wrap", gap: "$6" },
               }}
             >
-              <Input
-                ref={email}
-                label="Email"
-                clearable
-                bordered
-                fullWidth
-                size="lg"
-                placeholder="Email"
-              />
               <Input
                 ref={telefone}
                 label="Telefone"

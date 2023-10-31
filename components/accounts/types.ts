@@ -1,7 +1,5 @@
 export interface ClienteToBeCreated {
-  primeiroNome: string | undefined;
-  segundoNome: string | undefined;
-  email: string | undefined;
+  nome: string | undefined;
   telefone: string | undefined;
   rua: string | undefined;
   bairro: string | undefined;

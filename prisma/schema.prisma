@@ -22,7 +22,6 @@ model User {
 model Cliente {
   id               String      @id @default(uuid())
   nome             String
-  email            String      @unique
   telefone         String
   valorMovimentado Float
   rua              String
