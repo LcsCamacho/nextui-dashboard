@@ -54,9 +54,29 @@ model Transacao {
   clienteId     String
   vendaId       String
   valor         Float
-  valorRestante Float   @default(0)
+  valorRestante Float    @default(0)
   cliente       Cliente  @relation(fields: [clienteId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   venda         Venda    @relation(fields: [vendaId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+}
+
+model Projeto {
+  id        String   @id @default(uuid())
+  nome      String
+  descricao String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Tarefa    Tarefa[]
+}
+
+model Tarefa {
+  id        String   @id @default(uuid())
+  nome      String
+  descricao String
+  projetoId String
+  tempo     BigInt
+  projeto   Projeto  @relation(fields: [projetoId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
