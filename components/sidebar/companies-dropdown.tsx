@@ -19,9 +19,9 @@ export const CompaniesDropdown = () => {
       logo: <AcmeIcon />,
    });
    return (
-      <Dropdown placement="bottom-right" borderWeight={'extrabold'}>
-         <Dropdown.Trigger css={{cursor: 'pointer'}}>
-            <Box>
+      <Dropdown closeOnSelect shouldFlip  placement="bottom-right" borderWeight={'extrabold'}>
+         <Dropdown.Trigger  css={{cursor: 'pointer'}}>
+            <Box aria-label="box-dropdown" aria-labelledby='box-dropdown'>
                <Flex align={'center'} css={{gap: '$7'}}>
                <AcmeIcon />
                   <Box>
