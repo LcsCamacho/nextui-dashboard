@@ -95,7 +95,7 @@ export const Accounts = ({ clientes }: { clientes: Cliente[] }) => {
               const filteredClientes = clientes.filter((user) => {
                 const name = user.nome.toLowerCase();
                 const search = value.toLowerCase();
-                return name.includes(search) || email.includes(search);
+                return name.includes(search);
               });
               setClientesState(filteredClientes);
             }}
