@@ -12,17 +12,6 @@ import { AddUser } from "./add-user";
 import { ClientesServices } from "./services";
 import { DetailsCliente } from "./details";
 
-export interface User {
-  id: number;
-  name: string;
-  role: string;
-  team: string;
-  status: string;
-  age: string;
-  avatar: string;
-  date?: string;
-}
-
 export const Accounts = ({ clientes }: { clientes: Cliente[] }) => {
   const [clientesState, setClientesState] = useState<Cliente[]>(clientes);
   const [clienteSelected, setClienteSelected] = useState<Cliente | null>(null);

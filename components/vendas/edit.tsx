@@ -32,7 +32,7 @@ export const EditarVenda = ({
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const [valorPago, setValorPago] = useState(venda.valorTotal - venda.valorPago);
-  const [pago, setPago] = useState(valorPago === venda.valorTotal);
+  const [pago, setPago] = useState(valorPago === venda.valorTotal || venda.pago);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [valorRestante, setValorRestante] = useState(venda.valorTotal - venda.valorPago);
@@ -137,7 +137,7 @@ export const EditarVenda = ({
       </Modal.Body>
       <Modal.Footer>
         <Button
-          disabled={loading}
+          disabled={loading || venda.pago}
           auto
           color={success ? "success" : error ? "error" : "primary"}
           onClick={saveChanges}
