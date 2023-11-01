@@ -20,7 +20,6 @@ export interface User {
   status: string;
   age: string;
   avatar: string;
-  email: string;
   date?: string;
 }
 
@@ -95,7 +94,6 @@ export const Accounts = ({ clientes }: { clientes: Cliente[] }) => {
               const value = e.target.value;
               const filteredClientes = clientes.filter((user) => {
                 const name = user.nome.toLowerCase();
-                const email = user.email.toLowerCase();
                 const search = value.toLowerCase();
                 return name.includes(search) || email.includes(search);
               });
