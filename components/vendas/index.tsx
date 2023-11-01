@@ -3,7 +3,7 @@ import { Breadcrumbs, Crumb, CrumbLink } from "../breadcrumb/breadcrumb.styled";
 import { HouseIcon } from "../icons/breadcrumb/house-icon";
 import { UsersIcon } from "../icons/breadcrumb/users-icon";
 import { Flex } from "../styles/flex";
-import { Button, Input } from "@nextui-org/react";
+import { Button, Checkbox, Input } from "@nextui-org/react";
 import { ExportIcon } from "../icons/accounts/export-icon";
 import { VendaWithCliente } from "./types";
 import { AddVenda } from "./add-venda";
@@ -89,7 +89,7 @@ const Vendas = ({ vendas }: { vendas: VendaWithCliente[] }) => {
               fd: "column",
               gap: "$4",
               jc: "center",
-              ai: "center",
+              ai: "start",
             },
           }}
           align={"center"}
@@ -108,6 +108,32 @@ const Vendas = ({ vendas }: { vendas: VendaWithCliente[] }) => {
           {/* <Button>
             <ExportIcon /> Exportar para Excel
           </Button> */}
+          <Checkbox
+            label="Mostrar vendas pagas"
+            onChange={(e) => {
+              if(!e) {
+                setVendas(vendas);
+                return;
+              }
+              const filteredVendas = vendas.filter((venda) => {
+                return venda.pago;
+              });
+              setVendas(filteredVendas);
+            }}
+          />
+          <Checkbox
+            label="Mostrar vendas pendentes"
+            onChange={(e) => {
+              if(!e) {
+                setVendas(vendas);
+                return;
+              }
+              const filteredVendas = vendas.filter((venda) => {
+                return !venda.pago;
+              });
+              setVendas(filteredVendas);
+            }}
+          />
         </Flex>
         {!!vendaSelected && showModalEdit && (
           <EditarVenda
