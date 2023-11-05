@@ -38,7 +38,6 @@ export const CardCronometro = ({
 
   const resetCountDown = () => {
     setIsActive(false);
-    console.log(countRef);
     clearTimeout(countRef.current);
   };
 

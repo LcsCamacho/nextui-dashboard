@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../prisma/connect";
-import { Prisma,Projeto } from "@prisma/client";
+import { Prisma, Projeto } from "@prisma/client";
 
 const methodsAllowed = ["GET", "POST"];
 
@@ -9,29 +9,27 @@ enum MethodsAlloweds {
   POST = "POST",
 }
 
-
 const services = {
   GET: async (req: NextApiRequest) => {
-
     return await prisma.projeto.findMany({
       orderBy: {
         createdAt: "desc",
       },
       include: {
         Tarefa: !!req.query.withTarefa && req.query.withTarefa === "1",
-      }
+      },
     });
   },
   POST: async (req: NextApiRequest) => {
-    const { descricao, nome  }:Projeto = req.body;
-    
-    const projeto = await prisma.projeto.create({
+    const { descricao, nome }: Projeto = req.body;
+
+    const { id } = await prisma.projeto.create({
       data: {
         descricao,
         nome,
       },
     });
-    return { success: true };
+    return { success: true, id };
   },
 };
 

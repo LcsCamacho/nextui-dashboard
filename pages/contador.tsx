@@ -1,6 +1,6 @@
 import { Tarefa } from "@prisma/client";
 import { GetServerSideProps, NextPage } from "next";
-import { Cronometro } from "../components/cronometro";
+import { Cronometro } from "../components/tarefas";
 import axios from "axios";
 import { currentUrl } from "../constants/urlFetch";
 

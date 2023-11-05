@@ -11,31 +11,30 @@ enum MethodsAlloweds {
   DELETE = "DELETE",
 }
 
-
 const services = {
   GET: async (req: NextApiRequest) => {
-
     return await prisma.tarefa.findMany({
       orderBy: {
         createdAt: "desc",
       },
       include: {
         projeto: true,
-      }
+      },
     });
   },
   POST: async (req: NextApiRequest) => {
-    const { descricao, nome, projetoId }:Tarefa = req.body;
-    
-    await prisma.tarefa.create({
+    const { descricao, nome, projetoId, id:inputId }: Tarefa = req.body;
+
+    const { id } = await prisma.tarefa.create({
       data: {
+        id: inputId,
         descricao,
         nome,
-        tempo:0,
+        tempo: 0,
         projetoId,
       },
     });
-    return { success: true };
+    return { success: true, id };
   },
   PUT: async (req: NextApiRequest) => {
     const { id } = req.query;
@@ -48,8 +47,8 @@ const services = {
         tempo,
       },
     });
-   
-    return { success: true };
+
+    return { success: true, id: String(id) };
   },
   DELETE: async (req: NextApiRequest) => {
     const { id } = req.query;
@@ -59,7 +58,7 @@ const services = {
       },
     });
     return { success: true };
-  }
+  },
 };
 
 export default async function handler(
