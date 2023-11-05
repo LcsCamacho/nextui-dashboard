@@ -53,6 +53,8 @@ export const CardCronometro = ({
     <Card
     isHoverable
     isPressable
+    title={`Cronômetro ${tarefa.nome}`}
+    role="card"
     variant="bordered"
       css={{
         position: "relative",

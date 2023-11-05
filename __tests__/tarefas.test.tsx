@@ -1,23 +1,27 @@
-import {render} from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { TarefasService } from '../components/tarefas/services';
 import { TarefaToBeCreated } from '../components/tarefas/types';
-import { Prisma } from '@prisma/client';
 import { AxiosError } from 'axios';
 import { randomUUID } from 'crypto';
 import { urlLocal } from '../constants/urlFetch';
+import { CardCronometro } from '../components/tarefas/card-cronometro';
+import { render,screen, waitFor, waitForElementToBeRemoved,  } from '@testing-library/react';
+import { Cronometro } from '../components/tarefas';
+import UserEvent from '@testing-library/user-event';
 
 const id = randomUUID()
+const tarefaToBeCreatedMock:TarefaToBeCreated = {
+  id: id,
+  nome: "Tarefa Teste",
+  descricao: "Tarefa Teste Descricao",
+  tempo: 0,
+  projetoId: "cd98703d-7eb3-441a-8922-4793390b9cd7",
+} 
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 describe("Tarefas", () => {
   it("should create tarefa", async () => {
-    const tarefaToBeCreatedMock:TarefaToBeCreated = {
-      id: id,
-      nome: "Tarefa Teste",
-      descricao: "Tarefa Teste Descricao",
-      tempo: 0,
-      projetoId: "cd98703d-7eb3-441a-8922-4793390b9cd7",
-    } 
     const tarefa = await TarefasService.createTarefa(tarefaToBeCreatedMock as any, urlLocal);
     expect(tarefa).toHaveProperty("success", true);
     expect(tarefa).toHaveProperty("id", expect.any(String));
@@ -40,7 +44,7 @@ describe("Tarefas", () => {
       success: true,
       id: expect.any(String),
     });
-  });
+  }, 2000);
   it("should return error update time", async () => {
     try {
       await TarefasService.saveTime(id, -1, urlLocal);
@@ -61,9 +65,19 @@ describe("Tarefas", () => {
       projeto: expect.any(Object),
     }]));
   });
-  it("should delete tarefa", async () => {
-    const tarefa = await TarefasService.deleteTarefa(id, urlLocal);
-    expect(tarefa).toHaveProperty("success", true);
-  });
+  it("should delete tarefa clicking in component", async () => {
+    const totalTarefas = await TarefasService.getTarefas(urlLocal);
+    const {queryAllByTitle, debug, queryAllByRole} = render(<Cronometro tarefas={totalTarefas as any} />);
+    const totalCards = queryAllByRole("card");
+    expect(totalCards.length).toBe(totalTarefas.length);
+    const button = screen.getAllByTitle("icon-delete");
+    UserEvent.click(button[0]);
+    const confirmButton = screen.getByTitle("confirm-delete");
+    UserEvent.click(confirmButton);
+    const totalCardsAfterDelete = queryAllByRole("card");
+    await waitFor(() => expect(queryAllByTitle(`Cronômetro ${totalTarefas[0].nome}`)).toHaveLength(totalCardsAfterDelete.length - 1));
+    // await waitForElementToBeRemoved(() => screen.getByTitle(`Cronômetro ${totalTarefas[0].nome}`));
+   
+  }, 4000);
 
 });

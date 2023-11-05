@@ -1,4 +1,4 @@
-import { Popover, Button, Text } from "@nextui-org/react";
+import { Popover, Button, Text, PopoverProps } from "@nextui-org/react";
 import { Props } from "@nextui-org/react/types/input/input-props";
 
 interface PopoverModelProps {
@@ -6,19 +6,20 @@ interface PopoverModelProps {
   icon: React.ReactNode;
   text: string;
   color: Props["color"];
+  rest?: typeof Popover;
 }
 
-export const PopoverModel= ({handleClickConfirm, icon, text, color}: PopoverModelProps) => {
+export const PopoverModel= ({handleClickConfirm, icon, text, color, ...rest}: PopoverModelProps) => {
   return (
     <Popover
       isBordered
-      
+      {...rest}
     >
       <Popover.Trigger>
-        <Text color={color} h5>{icon}</Text>
+        <Text title="icon-delete" color={color} h5>{icon}</Text>
       </Popover.Trigger>
       <Popover.Content>
-        <Button color={color} onClick={handleClickConfirm}>
+        <Button title="confirm-delete" className="confirm-delete" color={color} onClick={handleClickConfirm}>
           {text}
         </Button>
       </Popover.Content>

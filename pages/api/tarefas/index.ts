@@ -60,6 +60,7 @@ const services = {
   PUT: async (req: NextApiRequest) => {
     const { id } = req.query;
     const { tempo }: Tarefa = req.body;
+    if(tempo < 0) return new Error("Tempo não pode ser negativo")
     await prisma.tarefa.update({
       where: {
         id: String(id),
@@ -90,6 +91,7 @@ export default async function handler(
   const method = req.method as MethodsAlloweds;
   console.log(req.body)
   console.log(req.query)
+  console.log(req.method)
   if (!method) return res.status(400).json({ message: "Method is required" });
 
   if (!methodsAllowed.includes(method))

@@ -5,12 +5,10 @@ import { AddTarefa } from "./add-tarefa";
 import { CardCronometro } from "./card-cronometro";
 import { TarefasService } from "./services";
 import { useState } from "react";
+import { TarefaWithProjeto } from "./types";
 
-//cronometro para saber quanto tempo demoro em cada tarefa
-
-export const Cronometro = ({ tarefas }: { tarefas: Tarefa[] }) => {
-  const [tarefaAtual, setTarefaAtual] = useState<Tarefa | null>(null);
-  const [tarefasState, setTarefas] = useState<Tarefa[]>(tarefas);
+export const Cronometro = ({ tarefas }: { tarefas: TarefaWithProjeto[] }) => {
+  const [tarefasState, setTarefas] = useState<TarefaWithProjeto[]>(tarefas);
   const [loading, setLoading] = useState(false);
 
   const getTarefas = async () => {
