@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../prisma/connect";
 import { Prisma, Tarefa } from "@prisma/client";
+import Cors from "cors";
 
 const methodsAllowed = ["GET", "POST", "PUT", "DELETE"];
 
@@ -9,6 +10,26 @@ enum MethodsAlloweds {
   POST = "POST",
   PUT = "PUT",
   DELETE = "DELETE",
+}
+
+const cors = Cors({
+  methods: [...methodsAllowed, "HEAD"],
+});
+
+function runMiddleware(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  fn: Function,
+) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result: any) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+
+      return resolve(result);
+    });
+  });
 }
 
 const services = {
@@ -65,7 +86,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  await runMiddleware(req, res, cors);
   const method = req.method as MethodsAlloweds;
+  console.log(req.body)
+  console.log(req.query)
   if (!method) return res.status(400).json({ message: "Method is required" });
 
   if (!methodsAllowed.includes(method))

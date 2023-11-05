@@ -4,17 +4,21 @@ import { TarefasService } from '../components/tarefas/services';
 import { TarefaToBeCreated } from '../components/tarefas/types';
 import { Prisma } from '@prisma/client';
 import { AxiosError } from 'axios';
+import { randomUUID } from 'crypto';
+import { urlLocal } from '../constants/urlFetch';
+
+const id = randomUUID()
 
 describe("Tarefas", () => {
   it("should create tarefa", async () => {
     const tarefaToBeCreatedMock:TarefaToBeCreated = {
-      id: "tarefa-teste",
+      id: id,
       nome: "Tarefa Teste",
       descricao: "Tarefa Teste Descricao",
       tempo: 0,
       projetoId: "cd98703d-7eb3-441a-8922-4793390b9cd7",
     } 
-    const tarefa = await TarefasService.createTarefa(tarefaToBeCreatedMock as any);
+    const tarefa = await TarefasService.createTarefa(tarefaToBeCreatedMock as any, urlLocal);
     expect(tarefa).toHaveProperty("success", true);
     expect(tarefa).toHaveProperty("id", expect.any(String));
   });
@@ -24,13 +28,14 @@ describe("Tarefas", () => {
       projetoId: "cd98703d-7eb3-441a-8922-4793390b9cd7",
     }
     try {
-      await TarefasService.createTarefa(tarefaToBeCreatedMock as any);
+      await TarefasService.createTarefa(tarefaToBeCreatedMock as any, urlLocal);
     } catch (error) {
       expect(error).toBeInstanceOf(AxiosError);
     }
   });
   it("should update time", async () => {
-    const tarefa = await TarefasService.saveTime("tarefa-teste", Math.floor(Math.random() * 1000) + 1);
+    console.log(id)
+    const tarefa = await TarefasService.saveTime(id, Math.floor(Math.random() * 1000) + 1, urlLocal);
     expect(tarefa).toEqual({
       success: true,
       id: expect.any(String),
@@ -38,13 +43,13 @@ describe("Tarefas", () => {
   });
   it("should return error update time", async () => {
     try {
-      await TarefasService.saveTime("tarefa-teste", -1);
+      await TarefasService.saveTime(id, -1, urlLocal);
     } catch (error) {
       expect(error).toBeInstanceOf(AxiosError);
     }
   });
   it("should get tarefas", async () => {
-    const tarefas = await TarefasService.getTarefas();
+    const tarefas = await TarefasService.getTarefas(urlLocal);
     expect(tarefas).toEqual(expect.arrayContaining([{
       id: expect.any(String),
       nome: expect.any(String),
@@ -57,7 +62,7 @@ describe("Tarefas", () => {
     }]));
   });
   it("should delete tarefa", async () => {
-    const tarefa = await TarefasService.deleteTarefa("tarefa-teste");
+    const tarefa = await TarefasService.deleteTarefa(id, urlLocal);
     expect(tarefa).toHaveProperty("success", true);
   });
 
