@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../prisma/connect";
 import { Venda, Cliente, Prisma } from "@prisma/client";
+import Cors from "cors";
+import { runMiddleware } from "../tarefas";
 
 const methodsAllowed = ["GET"];
 
@@ -10,7 +12,9 @@ enum MethodsAlloweds {
   // DELETE = "DELETE",
   // PUT = "PUT",
 }
-
+const cors = Cors({
+  methods: [...methodsAllowed, "HEAD"],
+});
 const services = {
   GET: async (req: NextApiRequest) => {
     if (req.query.id) {
@@ -40,6 +44,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  await runMiddleware(req, res, cors);
   const method = req.method as MethodsAlloweds;
   if (!method) return res.status(400).json({ message: "Method is required" });
 

@@ -120,7 +120,7 @@ export const RenderCell = ({
             </IconButton>
           </Tooltip>
         </Col>
-        {/* <Col css={{ d: "flex" }}>
+        <Col css={{ d: "flex" }}>
           <Tooltip
             content="Deletar venda"
             color="error"
@@ -133,7 +133,7 @@ export const RenderCell = ({
               <DeleteIcon size={isMobile ? 30 : 20} fill="#FF0080" />
             </IconButton>
           </Tooltip>
-        </Col> */}
+        </Col>
       </Row>
     ),
   };

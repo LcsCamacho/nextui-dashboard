@@ -16,7 +16,7 @@ const cors = Cors({
   methods: [...methodsAllowed, "HEAD"],
 });
 
-function runMiddleware(
+export function runMiddleware(
   req: NextApiRequest,
   res: NextApiResponse,
   fn: Function,
@@ -89,9 +89,6 @@ export default async function handler(
 ) {
   await runMiddleware(req, res, cors);
   const method = req.method as MethodsAlloweds;
-  console.log(req.body)
-  console.log(req.query)
-  console.log(req.method)
   if (!method) return res.status(400).json({ message: "Method is required" });
 
   if (!methodsAllowed.includes(method))
@@ -101,7 +98,7 @@ export default async function handler(
     const response = await services[method](req);
     return res.status(200).json(response);
   } catch (error: Prisma.PrismaClientKnownRequestError | any) {
-    console.log(error);
+    // console.log(error);
     return res.status(500).json({ message: error.message });
   }
 }

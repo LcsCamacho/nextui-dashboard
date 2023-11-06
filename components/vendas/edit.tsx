@@ -104,7 +104,7 @@ export const EditarVenda = ({
       animated
     >
       <Modal.Header>
-        <Text h3>Editar venda</Text>
+        <Text h3>Fazer Pagamento</Text>
       </Modal.Header>
       <Modal.Body>
         <Flex css={{ fd: "column", jc: "center", ai: "start", gap: "$6" }}>

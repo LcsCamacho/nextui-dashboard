@@ -1,9 +1,10 @@
 import { Venda, Cliente, Transacao } from "@prisma/client";
 
 export interface VendaToBeCreated {
-  clienteId: string | undefined;
-  valor: number | string | undefined;
-  produto: string | undefined;
+  id?: string;
+  clienteId?: string;
+  valor?: number | string;
+  produto?: string;
 }
 
 export interface VendaWithCliente extends Venda { 

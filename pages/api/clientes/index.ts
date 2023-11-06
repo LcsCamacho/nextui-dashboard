@@ -3,6 +3,8 @@ import { prisma } from "../../../prisma/connect";
 import { users } from "../../../components/accounts/table/data";
 import { Cliente, Prisma } from "@prisma/client";
 interface ClienteDTO extends Cliente {}
+import Cors from "cors";
+import { runMiddleware } from "../tarefas";
 
 const methodsAllowed = ["GET", "POST"];
 
@@ -11,12 +13,16 @@ enum MethodsAlloweds {
   POST = "POST",
 }
 
+const cors = Cors({
+  methods: [...methodsAllowed, "HEAD"],
+});
+
 const services = {
   GET: async () => {
     return await prisma.cliente.findMany();
   },
   POST: async ({
-    nome,    
+    nome,
     valorMovimentado = 0,
     cidade = "Amparo",
     bairro,
@@ -24,7 +30,7 @@ const services = {
     numero,
     complemento,
     telefone,
-    cpf
+    cpf,
   }: ClienteDTO) => {
     const data = {
       nome,
@@ -35,7 +41,7 @@ const services = {
       numero: numero,
       complemento: complemento,
       telefone,
-      cpf
+      cpf,
     };
     return await prisma.cliente.create({
       data,
@@ -47,6 +53,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  await runMiddleware(req, res, cors);
   const method = req.method as MethodsAlloweds;
   if (!method) return res.status(400).json({ message: "Method is required" });
 
