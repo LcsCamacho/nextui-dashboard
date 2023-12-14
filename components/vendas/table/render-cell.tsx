@@ -44,20 +44,20 @@ export const RenderCell = ({
         {venda.cliente.telefone}
       </User>
     ),
-    produto: () => (
+    modelo: () => (
       <Col>
         <Row>
           <Text b size={14} css={{ tt: "capitalize" }}>
-            {venda.produto}
+            {venda.modelo}
           </Text>
         </Row>
       </Col>
     ),
-    rua: () => (
+    detalhes: () => (
       <Col>
         <Row>
           <Text b size={14} css={{ tt: "capitalize" }}>
-            {venda.cliente.rua}
+            {venda.detalhes}
           </Text>
         </Row>
         <Row>
@@ -67,10 +67,16 @@ export const RenderCell = ({
         </Row>
       </Col>
     ),
-    valorTotal: () => (
+    valorLiq: () => (
       // @ts-ignore
       <StyledBadge color={"$accents7"} type={"active"}>
-        R$ {venda.valorTotal},00
+        R$ {venda.valorLiq},00
+      </StyledBadge>
+    ),
+    valorEntrada: () => (
+      // @ts-ignore
+      <StyledBadge color={"$accents7"} type={"active"}>
+        R$ {venda.valorEntrada},00
       </StyledBadge>
     ),
     createdAt: () => (
@@ -87,12 +93,6 @@ export const RenderCell = ({
           </Text>
         </Row>
       </Col>
-    ),
-    pago: () => (
-      // @ts-ignore
-      <StyledBadge color={"$accents7"} type={venda.pago ? "active" : "warning"}>
-        {venda.pago ? "PAGO" : "PENDENTE"}
-      </StyledBadge>
     ),
     actions: () => (
       <Row

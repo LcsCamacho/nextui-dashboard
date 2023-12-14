@@ -7,9 +7,7 @@ import { VendaWithCliente } from "../components/vendas/types";
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { cliId, vendaPorCliente } = ctx.query;
   const { data:vendas } = await axios.get(
-    `${currentUrl}/vendas?withClientes=1${cliId ? `&cliId=${cliId}` : ""}${
-      vendaPorCliente ? `&vendaPorCliente=1` : ""
-    }&withTransacoes=1`
+    `${currentUrl}/vendas2`
   );
   return {
     props: {

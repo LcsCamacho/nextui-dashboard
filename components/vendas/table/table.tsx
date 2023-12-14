@@ -18,6 +18,7 @@ export const TableWrapperVendas = ({
 }) => {
   return (
     <Box
+    suppressHydrationWarning
       css={{
         "& .nextui-table-container": {
           boxShadow: "none",

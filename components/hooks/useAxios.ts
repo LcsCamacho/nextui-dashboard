@@ -9,5 +9,6 @@ export const UseAxios = (url?: string, options?: AxiosRequestConfig) => {
     },
   };
   const api = axios.create(options || defaultOptions);
+  
   return { api };
 };

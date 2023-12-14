@@ -34,6 +34,7 @@ const services = {
     console.log(req.query);
     if (req.query.cliId)
       return await getVendasByIdCliente(String(req.query.cliId));
+    
 
     return await prisma.venda.findMany({
       orderBy: {

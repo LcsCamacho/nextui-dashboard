@@ -44,3 +44,18 @@ export const VendasServices = {
       return data;
     },
 }
+
+
+export const VendasServices2 = {
+  getVendas: async (urlBase?:string) => {
+    const { api } = UseAxios(urlBase);
+    const { data } = await api.get<Venda[]>("/vendas2");
+    return data;
+  },
+  createVenda: async (venda: VendaToBeCreated,urlBase?:string) => {
+    const { api } = UseAxios(urlBase);
+    const { data } = await api.post("/vendas2", venda);
+    return data;
+  },
+
+}

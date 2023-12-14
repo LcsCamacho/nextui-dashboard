@@ -6,12 +6,22 @@ import { users } from "../components/accounts/table/data";
 import { currentUrl } from "../constants/urlFetch";
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const { data } = await axios.get(currentUrl + "/clientes");
-  return {
-    props: {
-      clientes: data,
-    },
-  };
+  try {
+    const {data} = await axios.get(currentUrl + "/clientes");
+    return {
+      props: {
+        clientes: data,
+      },
+    };
+    
+  } catch (error) {
+    console.log(error)
+      return {
+        props: {
+          clientes: []
+        }
+      }
+  }
 };
 const Home:NextPage<{ clientes: Cliente[] }> = ({ clientes }) => {
   return <Content clientes={clientes} />;
