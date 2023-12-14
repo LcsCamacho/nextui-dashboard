@@ -13,7 +13,7 @@ import { Venda } from "@prisma/client";
 import { ChangeEvent, useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { Flex } from "../styles/flex";
-import { VendasServices } from "./services";
+import { VendasServices2 } from "./services";
 import { StyledBadge } from "./table/table.styled";
 import { VendaWithCliente } from "./types";
 
@@ -31,23 +31,23 @@ export const EditarVenda = ({
   refreshVendas,
 }: Props) => {
   const [loading, setLoading] = useState(false);
-  const [valorPago, setValorPago] = useState(venda.valorTotal - venda.valorPago);
-  const [pago, setPago] = useState(valorPago === venda.valorTotal || venda.pago);
+  const [valorPago, setValorPago] = useState(0);
+  const [pago, setPago] = useState(false);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [valorRestante, setValorRestante] = useState(venda.valorTotal - venda.valorPago);
+  const [valorRestante, setValorRestante] = useState(0);
 
   const saveChanges = async () => {
     setLoading(true);
     try {
       const data = {
-        valorTotal: Number(venda.valorTotal),
+        valorTotal: Number(0),
         valorPago: Number(valorPago),
         pago,
         id: venda.id,
-        clienteId: venda.clienteId,
+        clienteId: "",
       };
-      await VendasServices.updateVenda(data as Venda);
+      console.log(data)
       setSuccess(true);
     } catch (error) {
       console.log(error);
@@ -119,14 +119,14 @@ export const EditarVenda = ({
             labelLeft="R$"
             value={valorPago}
             max={valorRestante}
-            disabled={pago}
+            disabled={false}
             onChange={handleChangeValorPago}
             fullWidth
           />
           <Checkbox
             label="Pagar tudo"
             value="pago"
-            isSelected={pago}
+            isSelected={false}
             onChange={(e) => {
               setPago(e);
               setValorPago(valorRestante);
@@ -137,7 +137,7 @@ export const EditarVenda = ({
       </Modal.Body>
       <Modal.Footer>
         <Button
-          disabled={loading || venda.pago}
+          disabled={loading }
           auto
           color={success ? "success" : error ? "error" : "primary"}
           onClick={saveChanges}
