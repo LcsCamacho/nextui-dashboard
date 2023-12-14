@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../prisma/connect";
 import { Venda, Cliente, Prisma } from "@prisma/client";
 import Cors from "cors";
-import { runMiddleware } from "../tarefas";
 
 const methodsAllowed = ["GET"];
 export function runMiddleware(
