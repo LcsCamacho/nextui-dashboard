@@ -21,9 +21,7 @@ export const DetailsVenda = ({ venda, isShow, closeHandler }: Props) => {
   const sendWhatsApp = () => {
     const message = `Olá ${
       cliente.nome
-    }, tudo bem? Aqui é da Pri Modas e estamos entrando em contato para lembrar que você tem uma dívida de R$${
-      venda.valorTotal - venda.valorPago
-    },00. Por favor, entre em contato conosco para que possamos negociar o pagamento. Obrigado!`;
+    }, tudo bem? Aqui é da Pri Modas e estamos entrando em contato para lembrar que você tem uma dívida de R$99,00. Por favor, entre em contato conosco para que possamos negociar o pagamento. Obrigado!`;
     const url = `https://api.whatsapp.com/send?phone=55${
       cliente.telefone
     }&text=${encodeURI(message)}`;
@@ -39,7 +37,7 @@ export const DetailsVenda = ({ venda, isShow, closeHandler }: Props) => {
       closeButton
       width="100%"
       css={{
-        backgroundColor: venda.pago ? "$successLight" : "",
+        backgroundColor: "$successLight" ,
         margin: "auto",
         maxHeight: "90vh",
         maxWidth: 720,
@@ -105,10 +103,10 @@ export const DetailsVenda = ({ venda, isShow, closeHandler }: Props) => {
               }}
             >
               <Text b size={16} css={{ tt: "capitalize", color: "$accents9" }}>
-                Total:{" "}
+                Entrada:{" "}
               </Text>
               <Text b size={14} css={{ color: "$accents7" }}>
-                R${venda.valorTotal},00
+                R${venda.valorEntrada},00
               </Text>
             </Col>
             <Col
@@ -117,24 +115,13 @@ export const DetailsVenda = ({ venda, isShow, closeHandler }: Props) => {
               }}
             >
               <Text b size={16} css={{ tt: "capitalize", color: "$accents9" }}>
-                Total pago:{" "}
+                Valor Liquido:{" "}
               </Text>
               <StyledBadge color={"$accents7"} type={"active"}>
-                R${venda.valorPago},00
+                R${venda.valorLiq},00
               </StyledBadge>
             </Col>
-            <Col
-              css={{
-                width: "max-content",
-              }}
-            >
-              <Text b size={16} css={{ tt: "capitalize", color: "$accents9" }}>
-                Restante:{" "}
-              </Text>
-              <StyledBadge color={"$accents7"} type={"warning"}>
-                R${venda.valorTotal - venda.valorPago},00
-              </StyledBadge>
-            </Col>
+            
           </Row>
           <Row css={{ gap: "$6" }}>
             <Col
