@@ -12,6 +12,21 @@ enum MethodsAlloweds {
   GET = "GET",
   POST = "POST",
 }
+export function runMiddleware(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  fn: Function,
+) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result: any) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+
+      return resolve(result);
+    });
+  });
+}
 
 const cors = Cors({
   methods: [...methodsAllowed, "HEAD"],

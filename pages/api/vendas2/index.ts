@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../prisma/connect";
 import { Venda, Cliente, Prisma, Venda2 } from "@prisma/client";
 import Cors from "cors";
-import { runMiddleware } from "../tarefas";
 
 const methodsAllowed = ["GET", "POST", "DELETE", "PUT"];
 
@@ -10,6 +9,21 @@ enum MethodsAlloweds {
   GET = "GET",
   POST = "POST",
 
+}
+export function runMiddleware(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  fn: Function,
+) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result: any) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+
+      return resolve(result);
+    });
+  });
 }
 
 const cors = Cors({
@@ -35,6 +49,7 @@ const services = {
       orderBy: {
         createdAt: "desc",
       },
+     
     });
   },
   POST: async (req: NextApiRequest) => {
