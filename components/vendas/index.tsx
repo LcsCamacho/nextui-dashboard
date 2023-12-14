@@ -108,7 +108,7 @@ const Vendas = ({ vendas }: { vendas: VendaWithCliente[] }) => {
           {/* <Button>
             <ExportIcon /> Exportar para Excel
           </Button> */}
-          <Checkbox
+          {/* <Checkbox
             label="Mostrar vendas pagas"
             onChange={(e) => {
               if(!e) {
@@ -120,8 +120,8 @@ const Vendas = ({ vendas }: { vendas: VendaWithCliente[] }) => {
               });
               setVendas(filteredVendas);
             }}
-          />
-          <Checkbox
+          /> */}
+          {/* <Checkbox
             label="Mostrar vendas pendentes"
             onChange={(e) => {
               if(!e) {
@@ -133,7 +133,7 @@ const Vendas = ({ vendas }: { vendas: VendaWithCliente[] }) => {
               });
               setVendas(filteredVendas);
             }}
-          />
+          /> */}
         </Flex>
         {!!vendaSelected && showModalEdit && (
           <EditarVenda
