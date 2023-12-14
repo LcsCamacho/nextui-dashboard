@@ -37,7 +37,7 @@ export const CardTransactions = () => {
             Ultimas Vendas
           </Text>
         </Flex>
-        <Flex css={{ gap: "$6", py: "$4" }} direction={"column"}>
+        {/* <Flex css={{ gap: "$6", py: "$4" }} direction={"column"}>
           {lastTransactions.map((t, index) => {
             if(loading) return (
               <Flex key={index} css={{ gap: "$6" }} align={"center"} justify="between">
@@ -75,7 +75,7 @@ export const CardTransactions = () => {
               </Flex>
             );
           })}
-        </Flex>
+        </Flex> */}
       </Card.Body>
     </Card>
   );
