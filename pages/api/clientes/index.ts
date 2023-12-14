@@ -4,7 +4,6 @@ import { users } from "../../../components/accounts/table/data";
 import { Cliente, Prisma } from "@prisma/client";
 interface ClienteDTO extends Cliente {}
 import Cors from "cors";
-import { runMiddleware } from "../tarefas";
 
 const methodsAllowed = ["GET", "POST"];
 
