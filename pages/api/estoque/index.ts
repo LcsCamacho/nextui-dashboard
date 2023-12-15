@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../prisma/connect";
 import {  Celular, Prisma, } from "@prisma/client";
 import Cors from "cors";
+import { runMiddleware } from "../vendas2";
 
 const methodsAllowed = ["GET", "POST", "DELETE", "PUT"];
 
