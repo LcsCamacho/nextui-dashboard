@@ -53,12 +53,12 @@ const services = {
     });
   },
   POST: async (req: NextApiRequest) => {
-    const { detalhes, formaPagto, modelo, valorEntrada, valorLiq}:Venda2 = req.body;
+    const { detalhes, formaPagto, produtoId, valorEntrada, valorLiq}:Venda2 = req.body;
     const vendaCriada = await prisma.venda2.create({
       data: {
         detalhes,
         formaPagto,
-        modelo,
+        produtoId,
         valorEntrada,
         valorLiq,
       },

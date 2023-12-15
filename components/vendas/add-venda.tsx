@@ -21,8 +21,10 @@ export const AddVenda = ({ refreshVendas }: { refreshVendas: () => void }) => {
   const [error, setError] = React.useState(false);
   const [clientes, setClientes] = React.useState<Cliente[]>([]);
   const produto = React.useRef<HTMLInputElement>(null);
-  const cliente = React.useRef<HTMLSelectElement>(null);
+  const cliente = React.useRef<HTMLInputElement>(null);
   const valor = React.useRef<HTMLInputElement>(null);
+  const modelo = React.useRef<HTMLSelectElement>(null);
+  const gbRam = React.useRef<HTMLInputElement>(null);
   const handler = () => setVisible(true);
 
   React.useEffect(() => {
@@ -121,18 +123,17 @@ export const AddVenda = ({ refreshVendas }: { refreshVendas: () => void }) => {
                   width: "100%",
                 }}
               >
-                Cliente
+                Modelo
               </label>
-              <select className="select" placeholder="Cliente" ref={cliente}>
-                {clientes.map((cliente: Cliente) => (
-                  <option
-                    className="option"
-                    key={cliente.id}
-                    value={cliente.id}
-                  >
-                    {cliente.nome}
-                  </option>
-                ))}
+              <select className="select" placeholder="Modelo" ref={modelo}>
+                <option className="option" value="Xiaomi 12S">Xiaomi 12S</option>
+                <option className="option"  value="Xiaomi Redmi 12">Xiaomi Redmi 12</option>
+                <option className="option"  value="Xiaomi Redmi 12S">Xiaomi Redmi 12S</option>
+                <option className="option"  value="Xiaomi Redmi 12 Pro">Xiaomi Redmi 12 Pro</option>
+                <option className="option"  value="Xiaomi Redmi 12 Pro Max">
+                  Xiaomi Redmi 12 Pro Max
+                </option>
+
               </select>
             </Flex>
             <Flex
@@ -154,10 +155,10 @@ export const AddVenda = ({ refreshVendas }: { refreshVendas: () => void }) => {
                     );
                   }
                 }}
-                label="Valor"
+                label="Valor Líquido"
                 fullWidth
                 size="lg"
-                placeholder="99"
+                placeholder="1239,79"
               />
             </Flex>
             <Flex
@@ -168,11 +169,51 @@ export const AddVenda = ({ refreshVendas }: { refreshVendas: () => void }) => {
               }}
             >
               <Input
-                ref={produto}
-                label="Produto"
+                labelLeft="R$"
+                ref={valor}
+                type="number"
+                onChange={() => {
+                  if (valor.current?.value) {
+                    valor.current.value = valor.current.value.replace(
+                      /\D/g,
+                      ""
+                    );
+                  }
+                }}
+                label="Valor Entrada"
                 fullWidth
                 size="lg"
-                placeholder="Calça jeans, saia, moletom..."
+                placeholder="324,99"
+              />
+            </Flex>
+            <Flex
+              css={{
+                gap: "$10",
+                flexWrap: "wrap",
+                "@lg": { flexWrap: "nowrap" },
+              }}
+            >
+              <Input
+                ref={gbRam}
+                label="GB\RAM"
+                fullWidth
+                size="lg"
+                placeholder="128GB\8GB"
+              />
+            </Flex>
+            <Flex
+              css={{
+                gap: "$10",
+                flexWrap: "wrap",
+                "@lg": { flexWrap: "nowrap" },
+              }}
+            >
+              <Input
+                ref={cliente}
+                label="Nome do cliente"
+                fullWidth
+                size="lg"
+                placeholder="Joana Paula"
               />
             </Flex>
           </Flex>

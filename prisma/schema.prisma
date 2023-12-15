@@ -82,12 +82,24 @@ model Tarefa {
 }
 
 model Venda2 {
-  id         String   @id @default(uuid())
-  formaPagto String
+  id           String   @id @default(uuid())
+  formaPagto   String
   valorEntrada Float
+  detalhes     String
+  valorLiq     Float
+  produto      Celular  @relation(fields: [produtoId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  produtoId    String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Celular {
+  id        String   @id @default(uuid())
   modelo    String
-  detalhes  String
-  valorLiq  Float
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  memoria   String
+  ram       String
+  valor     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Venda2    Venda2[]
 }

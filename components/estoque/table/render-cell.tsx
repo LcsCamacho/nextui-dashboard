@@ -1,30 +1,25 @@
-import { Col, Row, User, Text, Tooltip } from "@nextui-org/react";
+import { Col, Row, Text, Tooltip } from "@nextui-org/react";
 import React from "react";
 import { DeleteIcon } from "../../icons/table/delete-icon";
 import { EditIcon } from "../../icons/table/edit-icon";
 import { EyeIcon } from "../../icons/table/eye-icon";
-import { users } from "./data";
+import { IProduto } from "../types";
 import { IconButton, StyledBadge } from "./table.styled";
-import { Venda, Cliente } from "@prisma/client";
-import { VendasServices } from "../services";
-import { VendaWithCliente } from "../types";
 
-export interface VendaWithActionsAndCliente extends VendaWithCliente {
+export interface IProdutoWithActions extends IProduto {
   actions?: string;
 }
 
 interface Props {
-  venda: VendaWithActionsAndCliente;
+  produto: IProdutoWithActions;
   columnKey: string | React.Key;
-  handleClickDetails?: (venda: VendaWithActionsAndCliente) => void;
-  handleClickEdit?: (venda: VendaWithActionsAndCliente) => void;
+
 }
 
 export const RenderCell = ({
-  venda,
+  produto,
   columnKey,
-  handleClickDetails,
-  handleClickEdit,
+
 }: Props) => {
   const [isMobile, setIsMobile] = React.useState(false);
 
@@ -34,49 +29,28 @@ export const RenderCell = ({
     });
   }, []);
   const Cells = {
-    nome: () => (
-      <User
-        squared
-        src={users[Math.floor(Math.random() * users.length)].avatar}
-        name={String(venda.cliente.nome)}
-        css={{ p: 0 }}
-      >
-        {venda.cliente.telefone}
-      </User>
-    ),
     modelo: () => (
       <Col>
         <Row>
           <Text b size={14} css={{ tt: "capitalize" }}>
-            XIAOMI
+            {produto.modelo}
           </Text>
         </Row>
       </Col>
     ),
-    detalhes: () => (
+    memoria: () => (
       <Col>
         <Row>
           <Text b size={14} css={{ tt: "capitalize" }}>
-            {venda.detalhes}
-          </Text>
-        </Row>
-        <Row>
-          <Text b size={13} css={{ tt: "capitalize", color: "$accents7" }}>
-            {venda.cliente.bairro} - Nº {venda.cliente.numero}
+            {produto.memoria} GB/ {produto.ram} GB
           </Text>
         </Row>
       </Col>
     ),
-    valorLiq: () => (
+    valor: () => (
       // @ts-ignore
       <StyledBadge color={"$accents7"} type={"active"}>
-        R$ {venda.valorLiq},00
-      </StyledBadge>
-    ),
-    valorEntrada: () => (
-      // @ts-ignore
-      <StyledBadge color={"$accents7"} type={"active"}>
-        R$ {venda.valorEntrada},00
+        R$ {produto.valor},00
       </StyledBadge>
     ),
     createdAt: () => (
@@ -84,12 +58,12 @@ export const RenderCell = ({
       <Col>
         <Row>
           <Text b size={14} css={{ tt: "capitalize" }}>
-            {new Date(venda.createdAt).toLocaleDateString()}
+            {new Date(produto.createdAt).toLocaleDateString()}
           </Text>
         </Row>
         <Row>
           <Text b size={13} css={{ tt: "capitalize", color: "$accents7" }}>
-            {new Date(venda.createdAt).toLocaleTimeString()}
+            {new Date(produto.createdAt).toLocaleTimeString()}
           </Text>
         </Row>
       </Col>
@@ -103,9 +77,7 @@ export const RenderCell = ({
         <Col css={{ d: "flex" }}>
           <Tooltip content="Detalhes">
             <IconButton
-              onClick={() => {
-                if (handleClickDetails) handleClickDetails(venda);
-              }}
+             
             >
               <EyeIcon size={isMobile ? 30 : 20} fill="#979797" />
             </IconButton>
@@ -113,21 +85,15 @@ export const RenderCell = ({
         </Col>
         <Col css={{ d: "flex" }}>
           <Tooltip content="Editar venda">
-            <IconButton onClick={() => {
-              if (handleClickEdit) handleClickEdit(venda);
-            }}>
+            <IconButton>
               <EditIcon size={isMobile ? 30 : 20} fill="#979797" />
             </IconButton>
           </Tooltip>
         </Col>
         <Col css={{ d: "flex" }}>
           <Tooltip
-            content="Deletar venda"
+            content="Deletar produto"
             color="error"
-            onClick={() => {
-              console.log("Delete Venda", venda.id);
-              VendasServices.deleteVenda(venda.id);
-            }}
           >
             <IconButton>
               <DeleteIcon size={isMobile ? 30 : 20} fill="#FF0080" />
